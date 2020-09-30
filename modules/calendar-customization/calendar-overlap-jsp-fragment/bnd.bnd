@@ -1,0 +1,6 @@
+Bundle-Name: calendar-overlap-jsp-fragment
+Bundle-SymbolicName: calendar.overlap.jsp.fragment
+Bundle-Version: 1.0.0
+Fragment-Host: com.liferay.calendar.web
+
+Web-ContextPath: /blogs-web

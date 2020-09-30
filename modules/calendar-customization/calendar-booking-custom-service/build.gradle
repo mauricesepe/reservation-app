@@ -1,0 +1,7 @@
+dependencies {
+	compileOnly project(':modules:calendar-customization:calendar-overlap-action')
+	compileOnly group: "com.liferay", name: "com.liferay.calendar.api"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "org.osgi", name: "osgi.cmpn"
+    compileOnly project(":modules:reservation:reservation-api")
+}

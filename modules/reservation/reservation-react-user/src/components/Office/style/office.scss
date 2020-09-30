@@ -1,0 +1,34 @@
+.office {
+  .sheet-header {
+    margin-bottom: 2rem;
+  }
+  .sheet-title {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .input {
+    margin-bottom: 10px;
+  }
+  .buttongroup {
+    margin-top: 10px;
+    .button {
+      margin-right: 10px;
+    }
+  }
+  .empty {
+    display: none;
+  }
+}
+
+.office-select {
+  width: 50%;
+  margin-bottom: 10px;
+}
+
+.modal-content {
+  .office {
+    .sheet {
+      border-style: none;
+    }
+  }
+}

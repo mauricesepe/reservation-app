@@ -1,0 +1,10 @@
+Bundle-Name: reservation-api
+Bundle-SymbolicName: jp.co.liferay.reservation.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	jp.co.liferay.reservation.exception,\
+	jp.co.liferay.reservation.model,\
+	jp.co.liferay.reservation.service,\
+	jp.co.liferay.reservation.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../reservation-service/service.xml

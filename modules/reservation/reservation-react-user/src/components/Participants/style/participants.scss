@@ -1,0 +1,24 @@
+.participant-list {
+  overflow-y: auto;
+  margin-bottom: 10px;
+  .custom-control {
+    float: right;
+  }
+  .autofit-row {
+    margin-bottom: 15px;
+    justify-content: center;
+    align-items: center;
+    .name {
+      margin-left: 10px;
+    }
+    .check {
+      margin-right: 20px;
+    }
+  }
+}
+
+.dropbuttons {
+  .btn {
+    margin-right: 10px;
+  }
+}

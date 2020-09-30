@@ -1,0 +1,6 @@
+Bundle-Name: calendar-overlap-action
+Bundle-SymbolicName: com.liferay.calendar.web.custom.action
+Bundle-Version: 1.0.0
+
+Export-Package:\
+	com.liferay.calendar.web.custom.util

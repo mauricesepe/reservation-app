@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="jp.co.liferay.reservation.model.PersistedAmenity">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="amenityId" type="long" />
+		<field name="name" type="String" />
+		<field name="companyId" type="long" />
+	</model>
+	<model name="jp.co.liferay.reservation.model.PersistedBooking">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="bookingId" type="long" />
+		<field name="calendarBookingId" type="long" />
+		<field name="title" type="String" />
+		<field name="startDate" type="Date" />
+		<field name="endDate" type="Date" />
+		<field name="roomId" type="long" />
+		<field name="description" type="String" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="jp.co.liferay.reservation.model.PersistedOffice">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="officeId" type="long" />
+		<field name="calendarResourceId" type="long" />
+		<field name="name" type="String" />
+		<field name="location" type="String" />
+		<field name="roomCount" type="int" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="jp.co.liferay.reservation.model.PersistedParticipant">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="participantId" type="long" />
+		<field name="userId" type="long" />
+		<field name="fullName" type="String" />
+		<field name="companyName" type="String" />
+		<field name="emailAddress" type="String" />
+		<field name="companyId" type="long" />
+	</model>
+	<model name="jp.co.liferay.reservation.model.PersistedPurpose">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="purposeId" type="long" />
+		<field name="name" type="String" />
+		<field name="companyId" type="long" />
+	</model>
+	<model name="jp.co.liferay.reservation.model.PersistedRoom">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="roomId" type="long" />
+		<field name="calendarId" type="long" />
+		<field name="name" type="String" />
+		<field name="photoPath" type="String">
+			<hint name="max-length">255</hint>
+		</field>
+		<field name="availableMonday" type="boolean" />
+		<field name="availableTuesday" type="boolean" />
+		<field name="availableWednesday" type="boolean" />
+		<field name="availableThursday" type="boolean" />
+		<field name="availableFriday" type="boolean" />
+		<field name="availableSaturday" type="boolean" />
+		<field name="availableSunday" type="boolean" />
+		<field name="availableStartTime" type="int" />
+		<field name="availableEndTime" type="int" />
+		<field name="officeId" type="long" />
+		<field name="capacitySquareMeters" type="double" />
+		<field name="capacityPeople" type="int" />
+		<field name="phoneExtension" type="int" />
+		<field name="wifiSSID" type="String" />
+		<field name="wifiSecurityType" type="int" />
+		<field name="wifiPassword" type="String" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+</model-hints>

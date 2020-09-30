@@ -1,0 +1,15 @@
+@import '@clayui/css/lib/css/atlas.css';
+
+.tag {
+  font-weight: bold;
+  margin-right: 1em;
+}
+
+.value {
+  font-family: monospace;
+}
+
+.pre {
+  font-family: monospace;
+  white-space: pre;
+}  

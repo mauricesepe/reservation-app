@@ -1,0 +1,4 @@
+Bundle-Name: Headless Reservation Test
+Bundle-SymbolicName: jp.co.liferay.headless.reservation.test
+Bundle-Version: 1.0.0
+

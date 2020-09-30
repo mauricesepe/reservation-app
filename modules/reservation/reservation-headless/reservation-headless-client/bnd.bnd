@@ -1,0 +1,7 @@
+Bundle-Name: Headless Reservation Client
+Bundle-SymbolicName: jp.co.liferay.headless.reservation.client
+Bundle-Version: 1.0.0
+
+Export-Package: jp.co.liferay.headless.reservation.client.dto.v1_0, \
+    jp.co.liferay.headless.reservation.client.resource.v1_0, \
+    jp.co.liferay.headless.reservation.client.pagination

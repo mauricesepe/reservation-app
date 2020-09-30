@@ -1,0 +1,402 @@
+/* Global Variables for Booking POC */
+$white: #ffffff;
+/* Light Palette */
+$light-header: #F8FAFF;
+$light-body: #F3F7FF;
+$light-titles: #6378A0;
+$light-highlight: #DCE5F9;
+$light-blue: #004EE7;
+$light-underline: #004EE6;
+$light-line:  #DFE7F6;
+
+.booking {
+  overflow-y: hidden;
+  overflow-x: hidden;
+  .tabs {
+    background: $light-header;
+  }
+  .item {
+    padding: 5px;
+  }
+  .content {
+    background-color: $light-body;
+  }
+  .table {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+/* Find A Room tab contents under Booking.js */
+.booking .find {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  .sheet-lg {
+    width: 100%;
+    max-height: 800px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .sheet-section {
+    margin-bottom: 1rem;
+  }
+  .cont {
+    float: left;
+    flex: 2;
+    margin-top: 2vh;
+    &-1 {
+      flex: 1;
+      justify-content: center;
+      margin: 0 auto;
+      margin-bottom: 10px;
+      .contents {
+        width: 95%;
+        flex: none;
+      }
+    }
+    &-2 {
+      flex: 2.5;
+      max-height: 850px;
+    }
+  }
+  .search {
+    justify-content: center;
+  }
+  .facility {
+    display: flex;
+    flex-direction: column;
+  }
+  .calendar {
+    display: flex;
+    flex-direction: column;
+    .clay-time-edit {
+      padding-right: 0;
+      .form-control-inset {
+        width: 30%
+      }
+    }
+    .clay-time-action-group {
+      display: none;
+    }
+    .actual {
+      height: 20vh;
+      border: 1px solid black;
+      margin-bottom: 10px;
+    }
+    .sheet-section {
+      margin-bottom: 0.5rem;
+    }
+  }
+  .location {
+    display: block;
+    .office-select {
+      width: auto;
+    }
+  }
+  .capacity {
+    display: block;
+    .form-group {
+      margin: 1rem;
+      margin-bottom: 0;
+    }
+    .slider {
+      width: 90%;
+      margin: 0 auto;
+    }
+  }
+  .facilitylist {
+    max-height: 250px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+    text-align: left;
+    .custom-control {
+      margin-left: .2rem;
+      margin-top: .5rem;
+    }
+    .list {
+      overflow-y: auto;
+    }
+  }
+  .filtered {
+    align-items: center;
+    margin: 0 auto;
+    .sheet {
+      max-height: 800px;
+      overflow-y: auto;
+    }
+    .row {
+      margin-right: -10px;
+      margin-left: -10px;
+      .card-body {
+        margin: 20px;
+      }
+    }
+    .corner {
+      background-color: $light-highlight;
+      border-radius: 0;
+      width: 150px;
+      height: 30px;
+      text-align: center;
+      font-weight: bold;
+      color: $light-blue;
+      margin-bottom: 10px;
+    }
+  }
+  .cards {
+    max-height: 730px;
+    overflow-y: auto;
+  }
+  .cardselect {
+    overflow: visible;
+    // padding-bottom: 20px;
+  }
+}
+
+/* Home of Tab content in Booking.js */
+.booking .events {
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  .header {
+    background-color: $light-body;
+    border: none;
+    padding-top: 10px;
+  }
+  .search, .select {
+    background-color: $light-body;
+  }
+  .day {
+    background-color: $light-highlight;
+    border-radius: 0;
+    width: 80px;
+    height: 30px;
+    text-align: center;
+    font-weight: bold;
+    color: $light-blue;
+  }
+  .conference {
+    color: black;
+  }
+}
+
+/* BookingRoomInformation.js */
+.booking-info {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  .contents {
+    flex: 3;
+    flex-direction: row;  
+    display: flex;
+    .general {
+      flex: 2;
+      .img {
+        width: 100%;
+        max-height: 400px;
+      }
+      .sheet-title {
+        margin-top: 20px;
+        float: left;
+        margin-bottom: 5px;
+      }
+      .btn-row {
+        width: 100%;
+        display: inline-block;
+      }
+      .location {
+        margin-bottom: 20px;
+      }
+    }
+  }
+  .amenities {
+    flex: 1;
+    &-contents {
+      padding-left: 20px;
+    }
+    .office {
+      background-color: $light-highlight;
+      border-radius: 0;
+      width: 80px;
+      height: 30px;
+      text-align: center;
+      font-weight: bold;
+      color: $light-blue;
+      margin-bottom: 1rem;
+    }
+    .sheet {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+    }
+    .sheet-section {
+      margin-bottom: 0;
+    }
+    .info {
+      background-color: $light-highlight;
+      border-radius: 0;
+      width: 100%;
+      height: 40px;
+      text-align: center;
+      font-weight: bold;
+      color: $light-blue;
+      margin-bottom: 1rem;
+    }
+    .info-table {
+      margin-bottom: 20px;
+    }
+  }
+  .breadcrumb-sect {
+    width: 100%;
+  }
+}
+
+/* BookingReservationInformation.js */
+.booking-reservation {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  .contents {
+    flex: 3;
+    flex-direction: row;  
+    display: flex;
+  }
+  .general {
+    flex: 2;
+    .img {
+      width: 100%;
+      max-height: 350px;
+    }
+    .sheet-header {
+      margin-bottom: 1rem;
+    }
+    .sheet-title {
+      margin-top: 20px;
+      float: left;
+      margin-bottom: 5px;
+    }
+  }
+  .participants {
+    flex: 1;
+    padding-left: 20px;
+    .participants {
+      background-color: $light-highlight;
+      border-radius: 0;
+      text-align: center;
+      font-weight: bold;
+      color: $light-blue;
+      margin-bottom: 1rem;
+      padding-left: 0;
+    }
+    .sheet {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+    }
+    .sheet-section {
+      margin-bottom: 0;
+    }
+  }
+  .breadcrumb-sect {
+    width: 100%;
+  }
+}
+
+/* BookingCreate.js for Creating on Click 本の部屋 under BookingRoomInformation.js */
+.booking-create {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  .office {
+    width: 50%;
+  }
+  .contents {
+    flex: 3;
+    flex-direction: row;  
+    display: flex;
+    margin-bottom: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .sheet-header {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  .sheet-section {
+    margin-bottom: 1rem;
+  }
+  .date-picker {
+    width: 60%;
+    margin-bottom: 1rem;
+  }
+  .time {
+    width: 60%;
+  }
+  .repeat {
+    margin-bottom: 10px;
+    width: 60%;
+  }
+  .line {
+    border-bottom: 1px solid $light-line;
+    width: 100%;
+  }
+  .roomOption {
+    width: 60%;
+  }
+  .capacity {
+    width: 50%;
+  }
+  .description {
+    width: 60%;
+  }
+  .endbutton {
+    .btn {
+      width: 115px;
+      height: 40px;
+      margin-right: 20px;
+    }
+  }
+  .sheet-title {
+    .meeting-title {
+      background-color: white;
+      border: none;
+      border-radius: unset;
+      border-bottom: 1px solid $light-line;
+      color: $light-titles;
+      font-size: 2rem;
+      padding-left: 0;
+      padding-bottom: 1.5rem;
+    }
+  }
+  .general {
+    flex: 2;
+  }
+  .participants {
+    flex: 1;
+    &-contents {
+      padding-left: 20px;
+    }
+    .participants {
+      background-color: $light-highlight;
+      border-radius: 0;
+      text-align: center;
+      font-weight: bold;
+      color: $light-blue;
+      margin-bottom: 1rem;
+    }
+  }
+  .breadcrumb-sect {
+    width: 100%;
+  }
+  .empty {
+    display: none;
+  }
+}
+

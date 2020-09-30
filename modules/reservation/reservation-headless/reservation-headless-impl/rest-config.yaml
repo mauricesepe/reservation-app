@@ -1,0 +1,9 @@
+apiDir: "../reservation-headless-api/src/main/java"
+apiPackagePath: "jp.co.liferay.headless.reservation"
+application:
+  baseURI: "/reservation-headless"
+  className: "HeadlessReservationApplication"
+  name: "jp.co.liferay.headless.reservation"
+author: "Maurice Sepe"
+clientDir: "../reservation-headless-client/src/main/java"
+testDir: "../reservation-headless-test/src/testIntegration/java"

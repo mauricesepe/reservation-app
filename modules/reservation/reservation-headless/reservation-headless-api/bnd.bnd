@@ -1,0 +1,6 @@
+Bundle-Name: Headless Reservation API
+Bundle-SymbolicName: jp.co.liferay.headless.reservation.api
+Bundle-Version: 1.0.0
+
+Export-Package: jp.co.liferay.headless.reservation.dto.v1_0, \
+    jp.co.liferay.headless.reservation.resource.v1_0

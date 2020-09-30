@@ -1,0 +1,41 @@
+.pagination-bar {
+  width: 100%;
+  margin: 5px;
+}
+
+.hidden {
+  display: none;
+} 
+
+.time {
+  max-width: 100%;
+  margin-bottom: 1rem;
+  .form-control {
+    background-color: #fff;
+  }
+  .start {
+    float: left;
+    max-width: 49%;
+    .clay-time {
+      .form-control-inset {
+        width: 30%;
+      }
+      .clay-time-action-group {
+        display: none;
+      }
+    }
+  }
+  .end {
+    padding-left: 1rem;
+    max-width: 49%;
+    float: left;
+    .clay-time {
+      .form-control-inset {
+        width: 30%;
+      }
+      .clay-time-action-group {
+        display: none;
+      }
+    }
+  }
+}

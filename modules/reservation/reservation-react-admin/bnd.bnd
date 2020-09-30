@@ -1,0 +1,5 @@
+Bundle-Name: reservation-react-admin
+Bundle-SymbolicName: jp.co.liferay.reservation.react.admin
+Bundle-Version: 1.0.0
+Export-Package: jp.co.liferay.reservation.react.admin.constants
+Web-ContextPath: /reservation-react-admin

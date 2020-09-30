@@ -1,0 +1,168 @@
+<?xml version="1.0" ?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_2_0.dtd">
+
+<service-builder dependency-injector="ds" package-path="jp.co.liferay.reservation" database-name-max-length="64">
+    <namespace>Reservation</namespace>
+    <!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
+    <entity external-reference-code="true" name="PersistedOffice" local-service="true" remote-service="true" uuid="true">
+
+        <!-- Entity field -->
+        <column name="officeId" type="long" primary="true" />
+        <column name="calendarResourceId" type="long" />
+        <column name="name" type="String" />
+        <column name="location" type="String" />
+        <column name="roomCount" type="int" />
+
+        <!-- Audit fields -->
+        <column name="companyId" type="long" />
+        <column name="userId" type="long" />
+        <column name="userName" type="String" />
+        <column name="createDate" type="Date" />
+        <column name="modifiedDate" type="Date" />
+
+        <reference entity="PortletPreferences" package-path="com.liferay.portal" />
+        <reference entity="Resource" package-path="com.liferay.portal" />
+    </entity>
+    <entity external-reference-code="true" name="PersistedRoom" local-service="true" remote-service="true" uuid="true">
+
+        <!-- Entity field -->
+        <column name="roomId" type="long" primary="true" />
+        <column name="calendarId" type="long" />
+        <column name="name" type="String" />
+        <column name="photoPath" type="String" />
+        <column name="availableMonday" type="boolean" />
+        <column name="availableTuesday" type="boolean" />
+        <column name="availableWednesday" type="boolean" />
+        <column name="availableThursday" type="boolean" />
+        <column name="availableFriday" type="boolean" />
+        <column name="availableSaturday" type="boolean" />
+        <column name="availableSunday" type="boolean" />
+        <column name="availableStartTime" type="int" />
+        <column name="availableEndTime" type="int" />
+        <column name="officeId" type="long" />
+        <column name="capacitySquareMeters" type="double" />
+        <column name="capacityPeople" type="int" />
+        <column name="phoneExtension" type="int" />
+        <column name="wifiSSID" type="String" />
+        <column name="wifiSecurityType" type="int" />
+        <column name="wifiPassword" type="String" />
+
+        <!-- Audit fields -->
+        <column name="companyId" type="long" />
+        <column name="userId" type="long" />
+        <column name="userName" type="String" />
+        <column name="createDate" type="Date" />
+        <column name="modifiedDate" type="Date" />
+
+        <!-- Relationships -->
+        <column entity="PersistedPurpose" mapping-table="Rooms_Purposes" name="purposes" type="Collection" />
+        <column entity="PersistedAmenity" mapping-table="Rooms_Amenities" name="amenites" type="Collection" />
+
+        <!-- Finder Methods Standard -->
+        <finder name="OfficeId" return-type="Collection">
+            <finder-column name="officeId" />
+        </finder>
+        <finder name="CalendarId" return-type="Collection">
+            <finder-column name="calendarId" />
+        </finder>
+
+        <reference entity="PortletPreferences" package-path="com.liferay.portal" />
+        <reference entity="Resource" package-path="com.liferay.portal" />
+    </entity>
+    <entity external-reference-code="true" name="PersistedBooking" local-service="true" remote-service="true" uuid="true">
+
+        <!-- Entity field -->
+        <column name="bookingId" type="long" primary="true" />
+        <column name="calendarBookingId" type="long" />
+        <column name="title" type="String" />
+        <column name="startDate" type="Date" />
+        <column name="endDate" type="Date" />
+        <column name="roomId" type="long" />
+        <column name="description" type="String" />
+
+        <!-- Audit fields -->
+        <column name="companyId" type="long" />
+        <column name="userId" type="long" />
+        <column name="userName" type="String" />
+        <column name="createDate" type="Date" />
+        <column name="modifiedDate" type="Date" />
+
+        <!-- Relationships -->
+        <column entity="PersistedParticipant" mapping-table="Participants_Bookings" name="participants" type="Collection" />
+
+        <!-- Finder Methods Standard -->
+        <finder name="RoomId" return-type="Collection">
+            <finder-column name="roomId" />
+        </finder>
+        <finder name="UserId" return-type="Collection">
+            <finder-column name="userId" />
+        </finder>
+
+        <reference entity="PortletPreferences" package-path="com.liferay.portal" />
+        <reference entity="Resource" package-path="com.liferay.portal" />
+    </entity>
+    <entity external-reference-code="true" name="PersistedParticipant" local-service="true" remote-service="true" uuid="true">
+
+        <!-- Entity field -->
+        <column name="participantId" type="long" primary="true" />
+        <column name="userId" type="long" />
+        <column name="fullName" type="String" />
+        <column name="companyName" type="String" />
+        <column name="emailAddress" type="String" />
+
+        <!-- Audit fields -->
+        <column name="companyId" type="long" />
+
+        <!-- Relationships -->
+        <column entity="PersistedBooking" mapping-table="Participants_Bookings" name="bookings" type="Collection" />
+
+        <reference entity="PortletPreferences" package-path="com.liferay.portal" />
+        <reference entity="Resource" package-path="com.liferay.portal" />
+    </entity>
+    <entity external-reference-code="true" name="PersistedAmenity" local-service="true" remote-service="true" uuid="true">
+
+        <!-- Entity field -->
+        <column name="amenityId" type="long" primary="true" />
+        <column name="name" type="String" />
+
+        <!-- Audit fields -->
+        <column name="companyId" type="long" />
+
+        <!-- Relationships -->
+        <column entity="PersistedRoom" mapping-table="Rooms_Amenities" name="rooms" type="Collection" />
+
+        <reference entity="PortletPreferences" package-path="com.liferay.portal" />
+        <reference entity="Resource" package-path="com.liferay.portal" />
+    </entity>
+    <entity external-reference-code="true" name="PersistedPurpose" local-service="true" remote-service="true" uuid="true">
+
+        <!-- Entity fields -->
+        <column name="purposeId" type="long" primary="true" />
+        <column name="name" type="String" />
+
+        <!-- Audit fields -->
+        <column name="companyId" type="long" />
+
+        <!-- Relationships -->
+        <column entity="PersistedRoom" mapping-table="Rooms_Purposes" name="rooms" type="Collection" />
+
+        <reference entity="PortletPreferences" package-path="com.liferay.portal" />
+        <reference entity="Resource" package-path="com.liferay.portal" />
+    </entity>
+    <exceptions>
+        <exception>NoSuchPersistedBooking</exception>
+        <exception>PersistedBookingValidate</exception>
+        <exception>NoSuchPersistedRoom</exception>
+        <exception>PersistedRoomValidate</exception>
+        <exception>NoSuchPersistedOffice</exception>
+        <exception>PersistedOfficeValidate</exception>
+        <exception>NoSuchPersistedFacility</exception>
+        <exception>PersistedFacilityValidate</exception>
+        <exception>NoSuchPersistedPurpose</exception>
+        <exception>PersistedPurposeValidate</exception>
+        <exception>NoSuchPersistedParticipant</exception>
+        <exception>PersistedParticipantValidate</exception>
+        <exception>NoSuchPersistedAmenity</exception>
+        <exception>PersistedAmenityValidate</exception>
+    </exceptions>
+</service-builder>

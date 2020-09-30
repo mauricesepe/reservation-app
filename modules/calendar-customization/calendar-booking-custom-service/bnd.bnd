@@ -1,0 +1,3 @@
+Bundle-Name: calendar-booking-custom-service
+Bundle-SymbolicName: com.liferay.calendar.service.wrapper
+Bundle-Version: 1.0.0
