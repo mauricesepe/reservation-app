@@ -1,5 +1,8 @@
 This is a Room Reservation App built with ReactJS and Liferay's Headless APIs.
 
+Dependencies:
+Java 1.8
+
 How to deploy.
 1. Go to this project's root directory.
 2. Execute blade server init
