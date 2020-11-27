@@ -1,5 +1,7 @@
 package jp.co.liferay.headless.reservation.client.dto.v1_0;
 
+import java.io.Serializable;
+
 import java.util.Objects;
 
 import javax.annotation.Generated;
@@ -12,7 +14,11 @@ import jp.co.liferay.headless.reservation.client.serdes.v1_0.OfficeSerDes;
  * @generated
  */
 @Generated("")
-public class Office {
+public class Office implements Cloneable, Serializable {
+
+	public static Office toDTO(String json) {
+		return OfficeSerDes.toDTO(json);
+	}
 
 	public String getLocation() {
 		return location;
@@ -74,6 +80,11 @@ public class Office {
 	}
 
 	protected Long officeId;
+
+	@Override
+	public Office clone() throws CloneNotSupportedException {
+		return (Office)super.clone();
+	}
 
 	@Override
 	public boolean equals(Object object) {

@@ -1,5 +1,7 @@
 package jp.co.liferay.headless.reservation.client.dto.v1_0;
 
+import java.io.Serializable;
+
 import java.util.Objects;
 
 import javax.annotation.Generated;
@@ -12,7 +14,11 @@ import jp.co.liferay.headless.reservation.client.serdes.v1_0.PurposeSerDes;
  * @generated
  */
 @Generated("")
-public class Purpose {
+public class Purpose implements Cloneable, Serializable {
+
+	public static Purpose toDTO(String json) {
+		return PurposeSerDes.toDTO(json);
+	}
 
 	public String getName() {
 		return name;
@@ -53,6 +59,11 @@ public class Purpose {
 	}
 
 	protected Long purposeId;
+
+	@Override
+	public Purpose clone() throws CloneNotSupportedException {
+		return (Purpose)super.clone();
+	}
 
 	@Override
 	public boolean equals(Object object) {

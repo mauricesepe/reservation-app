@@ -16,8 +16,6 @@ package jp.co.liferay.reservation.service;
 
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * Provides a wrapper for {@link PersistedRoomService}.
  *
@@ -25,7 +23,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see PersistedRoomService
  * @generated
  */
-@ProviderType
 public class PersistedRoomServiceWrapper
 	implements PersistedRoomService, ServiceWrapper<PersistedRoomService> {
 

@@ -1,4 +1,5 @@
 dependencies {
+	compileOnly group: "com.liferay", name: "com.liferay.petra.sql.dsl.api"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.io"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.lang"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.string"

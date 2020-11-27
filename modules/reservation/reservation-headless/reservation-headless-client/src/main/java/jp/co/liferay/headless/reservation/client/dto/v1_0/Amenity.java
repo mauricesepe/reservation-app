@@ -1,5 +1,7 @@
 package jp.co.liferay.headless.reservation.client.dto.v1_0;
 
+import java.io.Serializable;
+
 import java.util.Objects;
 
 import javax.annotation.Generated;
@@ -12,7 +14,11 @@ import jp.co.liferay.headless.reservation.client.serdes.v1_0.AmenitySerDes;
  * @generated
  */
 @Generated("")
-public class Amenity {
+public class Amenity implements Cloneable, Serializable {
+
+	public static Amenity toDTO(String json) {
+		return AmenitySerDes.toDTO(json);
+	}
 
 	public Long getAmenityId() {
 		return amenityId;
@@ -53,6 +59,11 @@ public class Amenity {
 	}
 
 	protected String name;
+
+	@Override
+	public Amenity clone() throws CloneNotSupportedException {
+		return (Amenity)super.clone();
+	}
 
 	@Override
 	public boolean equals(Object object) {

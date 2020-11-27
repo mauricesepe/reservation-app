@@ -17,8 +17,6 @@ package jp.co.liferay.reservation.model.impl;
 import jp.co.liferay.reservation.model.PersistedBooking;
 import jp.co.liferay.reservation.service.PersistedBookingLocalServiceUtil;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The extended model base implementation for the PersistedBooking service. Represents a row in the &quot;Reservation_PersistedBooking&quot; database table, with each column mapped to a property of this class.
  *
@@ -31,7 +29,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see PersistedBooking
  * @generated
  */
-@ProviderType
 public abstract class PersistedBookingBaseImpl
 	extends PersistedBookingModelImpl implements PersistedBooking {
 

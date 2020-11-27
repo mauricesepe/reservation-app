@@ -21,8 +21,6 @@ import java.rmi.RemoteException;
 
 import jp.co.liferay.reservation.service.PersistedRoomServiceUtil;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * Provides the SOAP utility for the
  * <code>PersistedRoomServiceUtil</code> service
@@ -62,7 +60,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see PersistedRoomServiceHttp
  * @generated
  */
-@ProviderType
 public class PersistedRoomServiceSoap {
 
 	public static jp.co.liferay.reservation.model.PersistedRoomSoap
@@ -76,10 +73,10 @@ public class PersistedRoomServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedRoomSoap.
 				toSoapModel(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -93,10 +90,10 @@ public class PersistedRoomServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedRoomSoap.
 				toSoapModels(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -111,10 +108,10 @@ public class PersistedRoomServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedRoomSoap.
 				toSoapModels(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -130,10 +127,10 @@ public class PersistedRoomServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedRoomSoap.
 				toSoapModels(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -150,10 +147,10 @@ public class PersistedRoomServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedRoomSoap.
 				toSoapModels(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -170,10 +167,10 @@ public class PersistedRoomServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedRoomSoap.
 				toSoapModels(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -203,10 +200,10 @@ public class PersistedRoomServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedRoomSoap.
 				toSoapModel(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -235,10 +232,10 @@ public class PersistedRoomServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedRoomSoap.
 				toSoapModel(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -253,10 +250,10 @@ public class PersistedRoomServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedRoomSoap.
 				toSoapModel(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 

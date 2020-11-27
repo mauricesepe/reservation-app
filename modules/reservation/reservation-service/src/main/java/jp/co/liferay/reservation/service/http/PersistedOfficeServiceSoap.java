@@ -21,8 +21,6 @@ import java.rmi.RemoteException;
 
 import jp.co.liferay.reservation.service.PersistedOfficeServiceUtil;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * Provides the SOAP utility for the
  * <code>PersistedOfficeServiceUtil</code> service
@@ -62,7 +60,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see PersistedOfficeServiceHttp
  * @generated
  */
-@ProviderType
 public class PersistedOfficeServiceSoap {
 
 	public static jp.co.liferay.reservation.model.PersistedOfficeSoap
@@ -76,10 +73,10 @@ public class PersistedOfficeServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedOfficeSoap.
 				toSoapModel(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -94,10 +91,10 @@ public class PersistedOfficeServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedOfficeSoap.
 				toSoapModels(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -115,10 +112,10 @@ public class PersistedOfficeServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedOfficeSoap.
 				toSoapModel(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -136,10 +133,10 @@ public class PersistedOfficeServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedOfficeSoap.
 				toSoapModel(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -154,10 +151,10 @@ public class PersistedOfficeServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedOfficeSoap.
 				toSoapModel(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 

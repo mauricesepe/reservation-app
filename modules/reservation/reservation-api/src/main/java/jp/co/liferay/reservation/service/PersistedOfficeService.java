@@ -51,7 +51,7 @@ public interface PersistedOfficeService extends BaseService {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link PersistedOfficeServiceUtil} to access the persisted office remote service. Add custom service methods to <code>jp.co.liferay.reservation.service.impl.PersistedOfficeServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>jp.co.liferay.reservation.service.impl.PersistedOfficeServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the persisted office remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link PersistedOfficeServiceUtil} if injection and service tracking are not available.
 	 */
 	public PersistedOffice addPersistedOffice(
 			String name, String location, ServiceContext serviceContext)

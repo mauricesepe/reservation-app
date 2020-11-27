@@ -1,6 +1,9 @@
 package jp.co.liferay.headless.reservation.client.pagination;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -8,6 +11,7 @@ import java.util.stream.Stream;
 
 import javax.annotation.Generated;
 
+import jp.co.liferay.headless.reservation.client.aggregation.Facet;
 import jp.co.liferay.headless.reservation.client.json.BaseJSONParser;
 
 /**
@@ -23,6 +27,14 @@ public class Page<T> {
 		PageJSONParser pageJSONParser = new PageJSONParser(toDTOFunction);
 
 		return (Page<T>)pageJSONParser.parseToDTO(json);
+	}
+
+	public Map<String, Map> getActions() {
+		return _actions;
+	}
+
+	public List<Facet> getFacets() {
+		return _facets;
 	}
 
 	public Collection<T> getItems() {
@@ -65,6 +77,14 @@ public class Page<T> {
 		return false;
 	}
 
+	public void setActions(Map<String, Map> actions) {
+		_actions = actions;
+	}
+
+	public void setFacets(List<Facet> facets) {
+		_facets = facets;
+	}
+
 	public void setItems(Collection<T> items) {
 		_items = items;
 	}
@@ -81,12 +101,11 @@ public class Page<T> {
 		_totalCount = totalCount;
 	}
 
-	private Collection<T> _items;
-	private long _page;
-	private long _pageSize;
-	private long _totalCount;
+	public static class PageJSONParser<T> extends BaseJSONParser<Page> {
 
-	private static class PageJSONParser<T> extends BaseJSONParser<Page> {
+		public PageJSONParser() {
+			_toDTOFunction = null;
+		}
 
 		public PageJSONParser(Function<String, T> toDTOFunction) {
 			_toDTOFunction = toDTOFunction;
@@ -107,7 +126,47 @@ public class Page<T> {
 			Page page, String jsonParserFieldName,
 			Object jsonParserFieldValue) {
 
-			if (Objects.equals(jsonParserFieldName, "items")) {
+			if (Objects.equals(jsonParserFieldName, "actions")) {
+				if (jsonParserFieldValue != null) {
+					PageJSONParser pageJSONParser = new PageJSONParser(
+						_toDTOFunction);
+
+					page.setActions(
+						pageJSONParser.parseToMap(
+							(String)jsonParserFieldValue));
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "facets")) {
+				if (jsonParserFieldValue != null) {
+					page.setFacets(
+						Stream.of(
+							toStrings((Object[])jsonParserFieldValue)
+						).map(
+							this::parseToMap
+						).map(
+							facets -> new Facet(
+								(String)facets.get("facetCriteria"),
+								Stream.of(
+									(Object[])facets.get("facetValues")
+								).map(
+									object -> (String)object
+								).map(
+									this::parseToMap
+								).map(
+									facetValues -> new Facet.FacetValue(
+										Integer.valueOf(
+											(String)facetValues.get(
+												"numberOfOccurrences")),
+										(String)facetValues.get("term"))
+								).collect(
+									Collectors.toList()
+								))
+						).collect(
+							Collectors.toList()
+						));
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "items")) {
 				if (jsonParserFieldValue != null) {
 					page.setItems(
 						Stream.of(
@@ -147,5 +206,12 @@ public class Page<T> {
 		private final Function<String, T> _toDTOFunction;
 
 	}
+
+	private Map<String, Map> _actions;
+	private List<Facet> _facets = new ArrayList<>();
+	private Collection<T> _items;
+	private long _page;
+	private long _pageSize;
+	private long _totalCount;
 
 }

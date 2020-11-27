@@ -6,11 +6,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
-
-import graphql.annotations.annotationTypes.GraphQLField;
-import graphql.annotations.annotationTypes.GraphQLName;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
+import com.liferay.portal.vulcan.util.ObjectMapperUtil;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.io.Serializable;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -19,6 +21,7 @@ import java.util.Set;
 
 import javax.annotation.Generated;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -34,10 +37,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Schema(
 	requiredProperties = {
 		"title", "date", "startTime", "endTime", "roomId", "description"
-	}
+	},
+	description = "Contains information about the booking."
 )
 @XmlRootElement(name = "Booking")
-public class Booking {
+public class Booking implements Serializable {
+
+	public static Booking toDTO(String json) {
+		return ObjectMapperUtil.readValue(Booking.class, json);
+	}
 
 	@Schema(description = "The primary key for the Booking entity.")
 	public Long getBookingId() {
@@ -63,7 +71,7 @@ public class Booking {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "The primary key for the Booking entity.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long bookingId;
 
@@ -89,7 +97,7 @@ public class Booking {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "Date of the booking event.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotEmpty
 	protected String date;
@@ -118,12 +126,13 @@ public class Booking {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "A description of the booking event.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotEmpty
 	protected String description;
 
 	@Schema(description = "End time of the booking event.")
+	@Valid
 	public Time getEndTime() {
 		return endTime;
 	}
@@ -147,7 +156,7 @@ public class Booking {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "End time of the booking event.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Time endTime;
@@ -176,7 +185,7 @@ public class Booking {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "Id associated with the office.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long officeId;
 
@@ -204,7 +213,7 @@ public class Booking {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "Name associated with the room.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String officeName;
 
@@ -232,7 +241,9 @@ public class Booking {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "Primary keys of the participants for this booking."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long[] participantIds;
 
@@ -260,7 +271,7 @@ public class Booking {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "Id associated with the room.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Long roomId;
@@ -289,11 +300,12 @@ public class Booking {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "Name associated with the room.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String roomName;
 
 	@Schema(description = "Start time of the booking event.")
+	@Valid
 	public Time getStartTime() {
 		return startTime;
 	}
@@ -317,7 +329,7 @@ public class Booking {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "Start time of the booking event.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Time startTime;
@@ -346,7 +358,7 @@ public class Booking {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "Title of the booking event.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotEmpty
 	protected String title;
@@ -375,7 +387,7 @@ public class Booking {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "The user who created the booking.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long userId;
 
@@ -403,7 +415,7 @@ public class Booking {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "Name of associated user.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String userName;
 
@@ -603,10 +615,26 @@ public class Booking {
 		return sb.toString();
 	}
 
+	@Schema(
+		defaultValue = "jp.co.liferay.headless.reservation.dto.v1_0.Booking",
+		name = "x-class-name"
+	)
+	public String xClassName;
+
 	private static String _escape(Object object) {
 		String string = String.valueOf(object);
 
 		return string.replaceAll("\"", "\\\\\"");
+	}
+
+	private static boolean _isArray(Object value) {
+		if (value == null) {
+			return false;
+		}
+
+		Class<?> clazz = value.getClass();
+
+		return clazz.isArray();
 	}
 
 	private static String _toJSON(Map<String, ?> map) {
@@ -624,9 +652,42 @@ public class Booking {
 			sb.append("\"");
 			sb.append(entry.getKey());
 			sb.append("\":");
-			sb.append("\"");
-			sb.append(entry.getValue());
-			sb.append("\"");
+
+			Object value = entry.getValue();
+
+			if (_isArray(value)) {
+				sb.append("[");
+
+				Object[] valueArray = (Object[])value;
+
+				for (int i = 0; i < valueArray.length; i++) {
+					if (valueArray[i] instanceof String) {
+						sb.append("\"");
+						sb.append(valueArray[i]);
+						sb.append("\"");
+					}
+					else {
+						sb.append(valueArray[i]);
+					}
+
+					if ((i + 1) < valueArray.length) {
+						sb.append(", ");
+					}
+				}
+
+				sb.append("]");
+			}
+			else if (value instanceof Map) {
+				sb.append(_toJSON((Map<String, ?>)value));
+			}
+			else if (value instanceof String) {
+				sb.append("\"");
+				sb.append(value);
+				sb.append("\"");
+			}
+			else {
+				sb.append(value);
+			}
 
 			if (iterator.hasNext()) {
 				sb.append(",");

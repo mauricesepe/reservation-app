@@ -250,9 +250,12 @@ components:
       type: object
 openapi: 3.0.1
 info:
+  description: "API for accessing Reservation details."
+  license:
+        name: "Apache 2.0"
+        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
   title: "Headless Reservation"
   version: v1.0
-  description: "API for accessing Reservation details."
 paths:
   "/offices":
     get:
@@ -380,6 +383,7 @@ paths:
           description: ""
           content:
             application/json: {} 
+            application/xml: {} 
   "/participants":
     get:
       operationId: getParticipantsPage
@@ -506,6 +510,7 @@ paths:
           description: ""
           content:
             application/json: {} 
+            application/xml: {} 
   "/purposes":
     get:
       operationId: getPurposesPage
@@ -632,6 +637,7 @@ paths:
           description: ""
           content:
             application/json: {}
+            application/xml: {}
   "/amenities":
     get:
       operationId: getAmenitiesPage
@@ -758,6 +764,7 @@ paths:
           description: ""
           content:
             application/json: {}
+            application/xml: {}
   "/rooms":
     post:
       operationId: postRoom
@@ -884,6 +891,7 @@ paths:
           description: ""
           content:
             application/json: {}
+            application/xml: {}
   "/bookings":
     post:
       operationId: postBooking
@@ -1010,3 +1018,4 @@ paths:
           description: ""
           content:
             application/json: {}
+            application/xml: {}

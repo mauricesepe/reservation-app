@@ -50,8 +50,8 @@ import org.osgi.service.component.annotations.Reference;
  */
 public abstract class PersistedParticipantServiceBaseImpl
 	extends BaseServiceImpl
-	implements PersistedParticipantService, AopService,
-			   IdentifiableOSGiService {
+	implements AopService, IdentifiableOSGiService,
+			   PersistedParticipantService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -108,8 +108,8 @@ public abstract class PersistedParticipantServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

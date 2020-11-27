@@ -1,9 +1,12 @@
 package jp.co.liferay.headless.reservation.client.dto.v1_0;
 
+import java.io.Serializable;
+
 import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import jp.co.liferay.headless.reservation.client.dto.v1_0.Time;
 import jp.co.liferay.headless.reservation.client.function.UnsafeSupplier;
 import jp.co.liferay.headless.reservation.client.serdes.v1_0.BookingSerDes;
 
@@ -12,7 +15,11 @@ import jp.co.liferay.headless.reservation.client.serdes.v1_0.BookingSerDes;
  * @generated
  */
 @Generated("")
-public class Booking {
+public class Booking implements Cloneable, Serializable {
+
+	public static Booking toDTO(String json) {
+		return BookingSerDes.toDTO(json);
+	}
 
 	public Long getBookingId() {
 		return bookingId;
@@ -284,6 +291,11 @@ public class Booking {
 	}
 
 	protected String userName;
+
+	@Override
+	public Booking clone() throws CloneNotSupportedException {
+		return (Booking)super.clone();
+	}
 
 	@Override
 	public boolean equals(Object object) {

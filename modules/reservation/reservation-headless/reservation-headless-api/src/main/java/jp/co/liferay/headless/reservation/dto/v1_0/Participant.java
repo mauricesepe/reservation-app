@@ -6,11 +6,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
-
-import graphql.annotations.annotationTypes.GraphQLField;
-import graphql.annotations.annotationTypes.GraphQLName;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
+import com.liferay.portal.vulcan.util.ObjectMapperUtil;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.io.Serializable;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -30,9 +32,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Generated("")
 @GraphQLName("Participant")
 @JsonFilter("Liferay.Vulcan")
-@Schema(requiredProperties = {"userId"})
+@Schema(
+	requiredProperties = {"userId"},
+	description = "Contains information about a booking participant."
+)
 @XmlRootElement(name = "Participant")
-public class Participant {
+public class Participant implements Serializable {
+
+	public static Participant toDTO(String json) {
+		return ObjectMapperUtil.readValue(Participant.class, json);
+	}
 
 	@Schema(description = "Participant's company name.")
 	public String getCompanyName() {
@@ -58,7 +67,7 @@ public class Participant {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "Participant's company name.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String companyName;
 
@@ -86,7 +95,7 @@ public class Participant {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "Participant's email address.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String emailAddress;
 
@@ -114,7 +123,7 @@ public class Participant {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "Participant's full name.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String fullName;
 
@@ -142,7 +151,7 @@ public class Participant {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "The primary key for the Participant entity.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long participantId;
 
@@ -172,7 +181,9 @@ public class Participant {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "Set to 0 if not associated with any existing Liferay user. Will use existing liferay user's attributes and ignore other fields if userID is valid."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Long userId;
@@ -271,10 +282,26 @@ public class Participant {
 		return sb.toString();
 	}
 
+	@Schema(
+		defaultValue = "jp.co.liferay.headless.reservation.dto.v1_0.Participant",
+		name = "x-class-name"
+	)
+	public String xClassName;
+
 	private static String _escape(Object object) {
 		String string = String.valueOf(object);
 
 		return string.replaceAll("\"", "\\\\\"");
+	}
+
+	private static boolean _isArray(Object value) {
+		if (value == null) {
+			return false;
+		}
+
+		Class<?> clazz = value.getClass();
+
+		return clazz.isArray();
 	}
 
 	private static String _toJSON(Map<String, ?> map) {
@@ -292,9 +319,42 @@ public class Participant {
 			sb.append("\"");
 			sb.append(entry.getKey());
 			sb.append("\":");
-			sb.append("\"");
-			sb.append(entry.getValue());
-			sb.append("\"");
+
+			Object value = entry.getValue();
+
+			if (_isArray(value)) {
+				sb.append("[");
+
+				Object[] valueArray = (Object[])value;
+
+				for (int i = 0; i < valueArray.length; i++) {
+					if (valueArray[i] instanceof String) {
+						sb.append("\"");
+						sb.append(valueArray[i]);
+						sb.append("\"");
+					}
+					else {
+						sb.append(valueArray[i]);
+					}
+
+					if ((i + 1) < valueArray.length) {
+						sb.append(", ");
+					}
+				}
+
+				sb.append("]");
+			}
+			else if (value instanceof Map) {
+				sb.append(_toJSON((Map<String, ?>)value));
+			}
+			else if (value instanceof String) {
+				sb.append("\"");
+				sb.append(value);
+				sb.append("\"");
+			}
+			else {
+				sb.append(value);
+			}
 
 			if (iterator.hasNext()) {
 				sb.append(",");

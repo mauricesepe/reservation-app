@@ -17,8 +17,6 @@ package jp.co.liferay.reservation.model.impl;
 import jp.co.liferay.reservation.model.PersistedOffice;
 import jp.co.liferay.reservation.service.PersistedOfficeLocalServiceUtil;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The extended model base implementation for the PersistedOffice service. Represents a row in the &quot;Reservation_PersistedOffice&quot; database table, with each column mapped to a property of this class.
  *
@@ -31,7 +29,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see PersistedOffice
  * @generated
  */
-@ProviderType
 public abstract class PersistedOfficeBaseImpl
 	extends PersistedOfficeModelImpl implements PersistedOffice {
 

@@ -1,0 +1,11 @@
+.gradle/*
+**/bundles/**
+**/node_modules/**
+**/bin/**
+**/build/**
+**/dist/**
+**/.classpath
+**/.project
+**/.sass-cache/**
+**/.settings/**
+**/*.iml

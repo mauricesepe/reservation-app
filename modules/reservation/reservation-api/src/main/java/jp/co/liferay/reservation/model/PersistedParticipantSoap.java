@@ -19,15 +19,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * This class is used by SOAP remote services, specifically {@link jp.co.liferay.reservation.service.http.PersistedParticipantServiceSoap}.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class PersistedParticipantSoap implements Serializable {
 
 	public static PersistedParticipantSoap toSoapModel(

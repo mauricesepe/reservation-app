@@ -27,30 +27,27 @@ import java.util.Date;
 
 import jp.co.liferay.reservation.model.PersistedOffice;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The cache model class for representing PersistedOffice in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class PersistedOfficeCacheModel
 	implements CacheModel<PersistedOffice>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PersistedOfficeCacheModel)) {
+		if (!(object instanceof PersistedOfficeCacheModel)) {
 			return false;
 		}
 
 		PersistedOfficeCacheModel persistedOfficeCacheModel =
-			(PersistedOfficeCacheModel)obj;
+			(PersistedOfficeCacheModel)object;
 
 		if (officeId == persistedOfficeCacheModel.officeId) {
 			return true;

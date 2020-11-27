@@ -12,6 +12,7 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(
 	property = {
+		"liferay.jackson=false",
 		"osgi.jaxrs.application.base=/reservation-headless",
 		"osgi.jaxrs.extension.select=(osgi.jaxrs.name=Liferay.Vulcan)",
 		"osgi.jaxrs.name=jp.co.liferay.headless.reservation"

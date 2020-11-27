@@ -25,30 +25,27 @@ import java.io.ObjectOutput;
 
 import jp.co.liferay.reservation.model.PersistedPurpose;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The cache model class for representing PersistedPurpose in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class PersistedPurposeCacheModel
 	implements CacheModel<PersistedPurpose>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PersistedPurposeCacheModel)) {
+		if (!(object instanceof PersistedPurposeCacheModel)) {
 			return false;
 		}
 
 		PersistedPurposeCacheModel persistedPurposeCacheModel =
-			(PersistedPurposeCacheModel)obj;
+			(PersistedPurposeCacheModel)object;
 
 		if (purposeId == persistedPurposeCacheModel.purposeId) {
 			return true;

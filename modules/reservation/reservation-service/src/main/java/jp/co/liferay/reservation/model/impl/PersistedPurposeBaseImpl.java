@@ -17,8 +17,6 @@ package jp.co.liferay.reservation.model.impl;
 import jp.co.liferay.reservation.model.PersistedPurpose;
 import jp.co.liferay.reservation.service.PersistedPurposeLocalServiceUtil;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The extended model base implementation for the PersistedPurpose service. Represents a row in the &quot;Reservation_PersistedPurpose&quot; database table, with each column mapped to a property of this class.
  *
@@ -31,7 +29,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see PersistedPurpose
  * @generated
  */
-@ProviderType
 public abstract class PersistedPurposeBaseImpl
 	extends PersistedPurposeModelImpl implements PersistedPurpose {
 

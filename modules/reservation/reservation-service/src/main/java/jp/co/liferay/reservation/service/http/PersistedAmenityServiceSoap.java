@@ -21,8 +21,6 @@ import java.rmi.RemoteException;
 
 import jp.co.liferay.reservation.service.PersistedAmenityServiceUtil;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * Provides the SOAP utility for the
  * <code>PersistedAmenityServiceUtil</code> service
@@ -62,7 +60,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see PersistedAmenityServiceHttp
  * @generated
  */
-@ProviderType
 public class PersistedAmenityServiceSoap {
 
 	public static jp.co.liferay.reservation.model.PersistedAmenitySoap
@@ -76,10 +73,10 @@ public class PersistedAmenityServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedAmenitySoap.
 				toSoapModel(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -94,10 +91,10 @@ public class PersistedAmenityServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedAmenitySoap.
 				toSoapModels(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -114,10 +111,10 @@ public class PersistedAmenityServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedAmenitySoap.
 				toSoapModels(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -135,10 +132,10 @@ public class PersistedAmenityServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedAmenitySoap.
 				toSoapModel(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -156,10 +153,10 @@ public class PersistedAmenityServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedAmenitySoap.
 				toSoapModel(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -174,10 +171,10 @@ public class PersistedAmenityServiceSoap {
 			return jp.co.liferay.reservation.model.PersistedAmenitySoap.
 				toSoapModel(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 

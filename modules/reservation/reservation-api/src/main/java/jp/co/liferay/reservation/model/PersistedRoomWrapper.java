@@ -22,8 +22,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * <p>
  * This class is a wrapper for {@link PersistedRoom}.
@@ -33,10 +31,9 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see PersistedRoom
  * @generated
  */
-@ProviderType
 public class PersistedRoomWrapper
 	extends BaseModelWrapper<PersistedRoom>
-	implements PersistedRoom, ModelWrapper<PersistedRoom> {
+	implements ModelWrapper<PersistedRoom>, PersistedRoom {
 
 	public PersistedRoomWrapper(PersistedRoom persistedRoom) {
 		super(persistedRoom);

@@ -17,8 +17,6 @@ package jp.co.liferay.reservation.model.impl;
 import jp.co.liferay.reservation.model.PersistedParticipant;
 import jp.co.liferay.reservation.service.PersistedParticipantLocalServiceUtil;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The extended model base implementation for the PersistedParticipant service. Represents a row in the &quot;Reservation_PersistedParticipant&quot; database table, with each column mapped to a property of this class.
  *
@@ -31,7 +29,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see PersistedParticipant
  * @generated
  */
-@ProviderType
 public abstract class PersistedParticipantBaseImpl
 	extends PersistedParticipantModelImpl implements PersistedParticipant {
 

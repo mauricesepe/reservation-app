@@ -50,7 +50,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 public abstract class PersistedBookingServiceBaseImpl
 	extends BaseServiceImpl
-	implements PersistedBookingService, AopService, IdentifiableOSGiService {
+	implements AopService, IdentifiableOSGiService, PersistedBookingService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -106,8 +106,8 @@ public abstract class PersistedBookingServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

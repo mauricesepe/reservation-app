@@ -22,8 +22,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * <p>
  * This class is a wrapper for {@link PersistedBooking}.
@@ -33,10 +31,9 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see PersistedBooking
  * @generated
  */
-@ProviderType
 public class PersistedBookingWrapper
 	extends BaseModelWrapper<PersistedBooking>
-	implements PersistedBooking, ModelWrapper<PersistedBooking> {
+	implements ModelWrapper<PersistedBooking>, PersistedBooking {
 
 	public PersistedBookingWrapper(PersistedBooking persistedBooking) {
 		super(persistedBooking);

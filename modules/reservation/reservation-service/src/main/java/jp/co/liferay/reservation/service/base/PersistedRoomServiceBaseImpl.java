@@ -50,7 +50,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 public abstract class PersistedRoomServiceBaseImpl
 	extends BaseServiceImpl
-	implements PersistedRoomService, AopService, IdentifiableOSGiService {
+	implements AopService, IdentifiableOSGiService, PersistedRoomService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -106,8 +106,8 @@ public abstract class PersistedRoomServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

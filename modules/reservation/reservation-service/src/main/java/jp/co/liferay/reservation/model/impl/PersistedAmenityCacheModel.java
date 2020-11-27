@@ -25,30 +25,27 @@ import java.io.ObjectOutput;
 
 import jp.co.liferay.reservation.model.PersistedAmenity;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The cache model class for representing PersistedAmenity in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class PersistedAmenityCacheModel
 	implements CacheModel<PersistedAmenity>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PersistedAmenityCacheModel)) {
+		if (!(object instanceof PersistedAmenityCacheModel)) {
 			return false;
 		}
 
 		PersistedAmenityCacheModel persistedAmenityCacheModel =
-			(PersistedAmenityCacheModel)obj;
+			(PersistedAmenityCacheModel)object;
 
 		if (amenityId == persistedAmenityCacheModel.amenityId) {
 			return true;

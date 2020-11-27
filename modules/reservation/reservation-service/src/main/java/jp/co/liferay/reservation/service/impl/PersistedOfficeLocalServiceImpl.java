@@ -100,6 +100,7 @@ public class PersistedOfficeLocalServiceImpl
     }
 
     @Indexable(type = IndexableType.DELETE)
+    @SystemEvent(type = SystemEventConstants.TYPE_DELETE)
     @Override
     public PersistedOffice deletePersistedOffice(long officeId) throws PortalException{
         

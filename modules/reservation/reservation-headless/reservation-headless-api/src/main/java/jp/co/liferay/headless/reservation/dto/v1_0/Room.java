@@ -6,11 +6,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
-
-import graphql.annotations.annotationTypes.GraphQLField;
-import graphql.annotations.annotationTypes.GraphQLName;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
+import com.liferay.portal.vulcan.util.ObjectMapperUtil;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.io.Serializable;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -19,6 +21,7 @@ import java.util.Set;
 
 import javax.annotation.Generated;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -39,10 +42,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 		"availableEndTime", "officeId", "capacitySquareMeters",
 		"capacityPeople", "phoneExtensions", "wifiSSID", "wifiSecurityType",
 		"wifiPassword"
-	}
+	},
+	description = "Contains all of the data for a single Room."
 )
 @XmlRootElement(name = "Room")
-public class Room {
+public class Room implements Serializable {
+
+	public static Room toDTO(String json) {
+		return ObjectMapperUtil.readValue(Room.class, json);
+	}
 
 	@Schema(description = "Primary keys of the amenities for this room.")
 	public Long[] getAmenityIds() {
@@ -68,11 +76,12 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "Primary keys of the amenities for this room.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long[] amenityIds;
 
 	@Schema(description = "The room's available end time.")
+	@Valid
 	public Time getAvailableEndTime() {
 		return availableEndTime;
 	}
@@ -96,7 +105,7 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "The room's available end time.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Time availableEndTime;
@@ -125,7 +134,9 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "The room's availability on a specified day (Fri)."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Boolean availableFriday;
@@ -154,7 +165,9 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "The room's availability on a specified day (Mon)."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Boolean availableMonday;
@@ -183,12 +196,15 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "The room's availability on a specified day (Sat)."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Boolean availableSaturday;
 
 	@Schema(description = "The room's available start time.")
+	@Valid
 	public Time getAvailableStartTime() {
 		return availableStartTime;
 	}
@@ -212,7 +228,7 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "The room's available start time.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Time availableStartTime;
@@ -241,7 +257,9 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "The room's availability on a specified day (Sun)."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Boolean availableSunday;
@@ -270,7 +288,9 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "The room's availability on a specified day (Thu)."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Boolean availableThursday;
@@ -299,7 +319,9 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "The room's availability on a specified day (Tue)."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Boolean availableTuesday;
@@ -328,7 +350,9 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "The room's availability on a specified day (Wed)."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Boolean availableWednesday;
@@ -357,7 +381,7 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "The room's maximum capacity.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Integer capacityPeople;
@@ -386,7 +410,7 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "The room's size in square meters.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Double capacitySquareMeters;
@@ -413,7 +437,7 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "The room name.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotEmpty
 	protected String name;
@@ -444,7 +468,9 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "The id of the office that this room entity belongs to."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Long officeId;
@@ -475,7 +501,9 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "The name of the office that this room entity blongs to."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String officeName;
 
@@ -503,7 +531,7 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "The room's extension phone number.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer phoneExtension;
 
@@ -531,7 +559,7 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "The path or url of the room's photo.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotEmpty
 	protected String photoPath;
@@ -560,7 +588,7 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "Primary keys of the purposes for this room.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long[] purposeIds;
 
@@ -588,7 +616,7 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "The primary key for the Room entity.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long roomId;
 
@@ -616,7 +644,7 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "The room's wifi password.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotEmpty
 	protected String wifiPassword;
@@ -645,7 +673,7 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "The room's wifi name.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotEmpty
 	protected String wifiSSID;
@@ -674,7 +702,7 @@ public class Room {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "The room's wifi security type.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotNull
 	protected Integer wifiSecurityType;
@@ -971,10 +999,26 @@ public class Room {
 		return sb.toString();
 	}
 
+	@Schema(
+		defaultValue = "jp.co.liferay.headless.reservation.dto.v1_0.Room",
+		name = "x-class-name"
+	)
+	public String xClassName;
+
 	private static String _escape(Object object) {
 		String string = String.valueOf(object);
 
 		return string.replaceAll("\"", "\\\\\"");
+	}
+
+	private static boolean _isArray(Object value) {
+		if (value == null) {
+			return false;
+		}
+
+		Class<?> clazz = value.getClass();
+
+		return clazz.isArray();
 	}
 
 	private static String _toJSON(Map<String, ?> map) {
@@ -992,9 +1036,42 @@ public class Room {
 			sb.append("\"");
 			sb.append(entry.getKey());
 			sb.append("\":");
-			sb.append("\"");
-			sb.append(entry.getValue());
-			sb.append("\"");
+
+			Object value = entry.getValue();
+
+			if (_isArray(value)) {
+				sb.append("[");
+
+				Object[] valueArray = (Object[])value;
+
+				for (int i = 0; i < valueArray.length; i++) {
+					if (valueArray[i] instanceof String) {
+						sb.append("\"");
+						sb.append(valueArray[i]);
+						sb.append("\"");
+					}
+					else {
+						sb.append(valueArray[i]);
+					}
+
+					if ((i + 1) < valueArray.length) {
+						sb.append(", ");
+					}
+				}
+
+				sb.append("]");
+			}
+			else if (value instanceof Map) {
+				sb.append(_toJSON((Map<String, ?>)value));
+			}
+			else if (value instanceof String) {
+				sb.append("\"");
+				sb.append(value);
+				sb.append("\"");
+			}
+			else {
+				sb.append(value);
+			}
 
 			if (iterator.hasNext()) {
 				sb.append(",");

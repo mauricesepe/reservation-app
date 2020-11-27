@@ -27,30 +27,27 @@ import java.util.Date;
 
 import jp.co.liferay.reservation.model.PersistedRoom;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The cache model class for representing PersistedRoom in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class PersistedRoomCacheModel
 	implements CacheModel<PersistedRoom>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PersistedRoomCacheModel)) {
+		if (!(object instanceof PersistedRoomCacheModel)) {
 			return false;
 		}
 
 		PersistedRoomCacheModel persistedRoomCacheModel =
-			(PersistedRoomCacheModel)obj;
+			(PersistedRoomCacheModel)object;
 
 		if (roomId == persistedRoomCacheModel.roomId) {
 			return true;

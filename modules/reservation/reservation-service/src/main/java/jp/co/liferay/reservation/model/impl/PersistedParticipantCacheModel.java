@@ -25,30 +25,27 @@ import java.io.ObjectOutput;
 
 import jp.co.liferay.reservation.model.PersistedParticipant;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The cache model class for representing PersistedParticipant in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class PersistedParticipantCacheModel
 	implements CacheModel<PersistedParticipant>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PersistedParticipantCacheModel)) {
+		if (!(object instanceof PersistedParticipantCacheModel)) {
 			return false;
 		}
 
 		PersistedParticipantCacheModel persistedParticipantCacheModel =
-			(PersistedParticipantCacheModel)obj;
+			(PersistedParticipantCacheModel)object;
 
 		if (participantId == persistedParticipantCacheModel.participantId) {
 			return true;

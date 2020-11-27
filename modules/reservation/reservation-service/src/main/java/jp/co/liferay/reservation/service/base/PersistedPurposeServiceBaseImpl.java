@@ -50,7 +50,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 public abstract class PersistedPurposeServiceBaseImpl
 	extends BaseServiceImpl
-	implements PersistedPurposeService, AopService, IdentifiableOSGiService {
+	implements AopService, IdentifiableOSGiService, PersistedPurposeService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -106,8 +106,8 @@ public abstract class PersistedPurposeServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

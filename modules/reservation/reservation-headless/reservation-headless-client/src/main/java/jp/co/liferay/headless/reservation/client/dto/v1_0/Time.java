@@ -1,5 +1,7 @@
 package jp.co.liferay.headless.reservation.client.dto.v1_0;
 
+import java.io.Serializable;
+
 import java.util.Objects;
 
 import javax.annotation.Generated;
@@ -12,7 +14,11 @@ import jp.co.liferay.headless.reservation.client.serdes.v1_0.TimeSerDes;
  * @generated
  */
 @Generated("")
-public class Time {
+public class Time implements Cloneable, Serializable {
+
+	public static Time toDTO(String json) {
+		return TimeSerDes.toDTO(json);
+	}
 
 	public String getAmpm() {
 		return ampm;
@@ -74,6 +80,11 @@ public class Time {
 	}
 
 	protected String minutes;
+
+	@Override
+	public Time clone() throws CloneNotSupportedException {
+		return (Time)super.clone();
+	}
 
 	@Override
 	public boolean equals(Object object) {

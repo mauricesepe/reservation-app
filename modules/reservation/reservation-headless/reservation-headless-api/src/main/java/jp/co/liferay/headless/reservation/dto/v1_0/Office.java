@@ -6,11 +6,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
-
-import graphql.annotations.annotationTypes.GraphQLField;
-import graphql.annotations.annotationTypes.GraphQLName;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
+import com.liferay.portal.vulcan.util.ObjectMapperUtil;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.io.Serializable;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -30,9 +32,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Generated("")
 @GraphQLName("Office")
 @JsonFilter("Liferay.Vulcan")
-@Schema(requiredProperties = {"name", "location"})
+@Schema(
+	requiredProperties = {"name", "location"},
+	description = "Contains information about an office site. Has rooms."
+)
 @XmlRootElement(name = "Office")
-public class Office {
+public class Office implements Serializable {
+
+	public static Office toDTO(String json) {
+		return ObjectMapperUtil.readValue(Office.class, json);
+	}
 
 	@Schema(description = "Office's location or address.")
 	public String getLocation() {
@@ -58,7 +67,7 @@ public class Office {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "Office's location or address.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotEmpty
 	protected String location;
@@ -85,7 +94,7 @@ public class Office {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "Office's name.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	@NotEmpty
 	protected String name;
@@ -114,7 +123,7 @@ public class Office {
 		}
 	}
 
-	@GraphQLField
+	@GraphQLField(description = "The primary key for the Office entity.")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long officeId;
 
@@ -188,10 +197,26 @@ public class Office {
 		return sb.toString();
 	}
 
+	@Schema(
+		defaultValue = "jp.co.liferay.headless.reservation.dto.v1_0.Office",
+		name = "x-class-name"
+	)
+	public String xClassName;
+
 	private static String _escape(Object object) {
 		String string = String.valueOf(object);
 
 		return string.replaceAll("\"", "\\\\\"");
+	}
+
+	private static boolean _isArray(Object value) {
+		if (value == null) {
+			return false;
+		}
+
+		Class<?> clazz = value.getClass();
+
+		return clazz.isArray();
 	}
 
 	private static String _toJSON(Map<String, ?> map) {
@@ -209,9 +234,42 @@ public class Office {
 			sb.append("\"");
 			sb.append(entry.getKey());
 			sb.append("\":");
-			sb.append("\"");
-			sb.append(entry.getValue());
-			sb.append("\"");
+
+			Object value = entry.getValue();
+
+			if (_isArray(value)) {
+				sb.append("[");
+
+				Object[] valueArray = (Object[])value;
+
+				for (int i = 0; i < valueArray.length; i++) {
+					if (valueArray[i] instanceof String) {
+						sb.append("\"");
+						sb.append(valueArray[i]);
+						sb.append("\"");
+					}
+					else {
+						sb.append(valueArray[i]);
+					}
+
+					if ((i + 1) < valueArray.length) {
+						sb.append(", ");
+					}
+				}
+
+				sb.append("]");
+			}
+			else if (value instanceof Map) {
+				sb.append(_toJSON((Map<String, ?>)value));
+			}
+			else if (value instanceof String) {
+				sb.append("\"");
+				sb.append(value);
+				sb.append("\"");
+			}
+			else {
+				sb.append(value);
+			}
 
 			if (iterator.hasNext()) {
 				sb.append(",");

@@ -2,14 +2,22 @@ package jp.co.liferay.headless.reservation.internal.graphql.mutation.v1_0;
 
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
-import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
-import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.service.RoleLocalService;
+import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 
-import graphql.annotations.annotationTypes.GraphQLField;
-import graphql.annotations.annotationTypes.GraphQLInvokeDetached;
-import graphql.annotations.annotationTypes.GraphQLName;
+import java.util.function.BiFunction;
 
 import javax.annotation.Generated;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import jp.co.liferay.headless.reservation.dto.v1_0.Amenity;
 import jp.co.liferay.headless.reservation.dto.v1_0.Booking;
@@ -81,9 +89,8 @@ public class Mutation {
 			roomResourceComponentServiceObjects;
 	}
 
-	@GraphQLField
-	@GraphQLInvokeDetached
-	public Office postOffice(@GraphQLName("office") Office office)
+	@GraphQLField(description = "Create a new office entity.")
+	public Office createOffice(@GraphQLName("office") Office office)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
@@ -92,18 +99,48 @@ public class Mutation {
 			officeResource -> officeResource.postOffice(office));
 	}
 
-	@GraphQLInvokeDetached
-	public void deleteOffice(@GraphQLName("officeId") String officeId)
+	@GraphQLField
+	public Response createOfficeBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_officeResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			officeResource -> officeResource.postOfficeBatch(
+				callbackURL, object));
+	}
+
+	@GraphQLField(description = "Deletes the target office entity.")
+	public boolean deleteOffice(@GraphQLName("officeId") String officeId)
 		throws Exception {
 
 		_applyVoidComponentServiceObjects(
 			_officeResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			officeResource -> officeResource.deleteOffice(officeId));
+
+		return true;
 	}
 
-	@GraphQLInvokeDetached
-	public Office putOffice(
+	@GraphQLField
+	public Response deleteOfficeBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_officeResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			officeResource -> officeResource.deleteOfficeBatch(
+				callbackURL, object));
+	}
+
+	@GraphQLField(
+		description = "Updates and overwrites existing office entity."
+	)
+	public Office updateOffice(
 			@GraphQLName("officeId") String officeId,
 			@GraphQLName("office") Office office)
 		throws Exception {
@@ -115,8 +152,20 @@ public class Mutation {
 	}
 
 	@GraphQLField
-	@GraphQLInvokeDetached
-	public Participant postParticipant(
+	public Response updateOfficeBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_officeResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			officeResource -> officeResource.putOfficeBatch(
+				callbackURL, object));
+	}
+
+	@GraphQLField(description = "Create a new participant entity.")
+	public Participant createParticipant(
 			@GraphQLName("participant") Participant participant)
 		throws Exception {
 
@@ -127,8 +176,21 @@ public class Mutation {
 				participant));
 	}
 
-	@GraphQLInvokeDetached
-	public void deleteParticipant(
+	@GraphQLField
+	public Response createParticipantBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_participantResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			participantResource -> participantResource.postParticipantBatch(
+				callbackURL, object));
+	}
+
+	@GraphQLField(description = "Deletes the target participant")
+	public boolean deleteParticipant(
 			@GraphQLName("participantId") String participantId)
 		throws Exception {
 
@@ -137,10 +199,27 @@ public class Mutation {
 			this::_populateResourceContext,
 			participantResource -> participantResource.deleteParticipant(
 				participantId));
+
+		return true;
 	}
 
-	@GraphQLInvokeDetached
-	public Participant putParticipant(
+	@GraphQLField
+	public Response deleteParticipantBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_participantResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			participantResource -> participantResource.deleteParticipantBatch(
+				callbackURL, object));
+	}
+
+	@GraphQLField(
+		description = "Updates and overwrites the target participant."
+	)
+	public Participant updateParticipant(
 			@GraphQLName("participantId") String participantId,
 			@GraphQLName("participant") Participant participant)
 		throws Exception {
@@ -153,8 +232,20 @@ public class Mutation {
 	}
 
 	@GraphQLField
-	@GraphQLInvokeDetached
-	public Amenity postAmenity(@GraphQLName("amenity") Amenity amenity)
+	public Response updateParticipantBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_participantResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			participantResource -> participantResource.putParticipantBatch(
+				callbackURL, object));
+	}
+
+	@GraphQLField(description = "Create a new amenity.")
+	public Amenity createAmenity(@GraphQLName("amenity") Amenity amenity)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
@@ -163,18 +254,48 @@ public class Mutation {
 			amenityResource -> amenityResource.postAmenity(amenity));
 	}
 
-	@GraphQLInvokeDetached
-	public void deleteAmenity(@GraphQLName("amenityId") String amenityId)
+	@GraphQLField
+	public Response createAmenityBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_amenityResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			amenityResource -> amenityResource.postAmenityBatch(
+				callbackURL, object));
+	}
+
+	@GraphQLField(
+		description = "Deletes the amenity and returns a 204 if the operation succeeds."
+	)
+	public boolean deleteAmenity(@GraphQLName("amenityId") String amenityId)
 		throws Exception {
 
 		_applyVoidComponentServiceObjects(
 			_amenityResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			amenityResource -> amenityResource.deleteAmenity(amenityId));
+
+		return true;
 	}
 
-	@GraphQLInvokeDetached
-	public Amenity putAmenity(
+	@GraphQLField
+	public Response deleteAmenityBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_amenityResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			amenityResource -> amenityResource.deleteAmenityBatch(
+				callbackURL, object));
+	}
+
+	@GraphQLField(description = "Updates and overwrites the amenity.")
+	public Amenity updateAmenity(
 			@GraphQLName("amenityId") String amenityId,
 			@GraphQLName("amenity") Amenity amenity)
 		throws Exception {
@@ -186,8 +307,20 @@ public class Mutation {
 	}
 
 	@GraphQLField
-	@GraphQLInvokeDetached
-	public Purpose postPurpos(@GraphQLName("purpose") Purpose purpose)
+	public Response updateAmenityBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_amenityResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			amenityResource -> amenityResource.putAmenityBatch(
+				callbackURL, object));
+	}
+
+	@GraphQLField(description = "Create a new purpose tag.")
+	public Purpose createPurpos(@GraphQLName("purpose") Purpose purpose)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
@@ -196,18 +329,23 @@ public class Mutation {
 			purposeResource -> purposeResource.postPurpos(purpose));
 	}
 
-	@GraphQLInvokeDetached
-	public void deletePurposPurpose(@GraphQLName("purposeId") String purposeId)
+	@GraphQLField(
+		description = "Deletes the purpose and returns a 204 if the operation succeeds."
+	)
+	public boolean deletePurposPurpose(
+			@GraphQLName("purposeId") String purposeId)
 		throws Exception {
 
 		_applyVoidComponentServiceObjects(
 			_purposeResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			purposeResource -> purposeResource.deletePurposPurpose(purposeId));
+
+		return true;
 	}
 
-	@GraphQLInvokeDetached
-	public Purpose putPurposPurpose(
+	@GraphQLField(description = "Updates and overwrites the target purpose.")
+	public Purpose updatePurposPurpose(
 			@GraphQLName("purposeId") String purposeId,
 			@GraphQLName("purpose") Purpose purpose)
 		throws Exception {
@@ -219,27 +357,54 @@ public class Mutation {
 				purposeId, purpose));
 	}
 
-	@GraphQLField
-	@GraphQLInvokeDetached
-	public Room postRoom(@GraphQLName("room") Room room) throws Exception {
+	@GraphQLField(description = "Create a new room.")
+	public Room createRoom(@GraphQLName("room") Room room) throws Exception {
 		return _applyComponentServiceObjects(
 			_roomResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			roomResource -> roomResource.postRoom(room));
 	}
 
-	@GraphQLInvokeDetached
-	public void deleteRoom(@GraphQLName("roomId") String roomId)
+	@GraphQLField
+	public Response createRoomBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_roomResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			roomResource -> roomResource.postRoomBatch(callbackURL, object));
+	}
+
+	@GraphQLField(
+		description = "Deletes the room and returns a 204 if the operation succeeds."
+	)
+	public boolean deleteRoom(@GraphQLName("roomId") String roomId)
 		throws Exception {
 
 		_applyVoidComponentServiceObjects(
 			_roomResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			roomResource -> roomResource.deleteRoom(roomId));
+
+		return true;
 	}
 
-	@GraphQLInvokeDetached
-	public Room putRoom(
+	@GraphQLField
+	public Response deleteRoomBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_roomResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			roomResource -> roomResource.deleteRoomBatch(callbackURL, object));
+	}
+
+	@GraphQLField(description = "Updates and overwrites target room details.")
+	public Room updateRoom(
 			@GraphQLName("roomId") String roomId,
 			@GraphQLName("room") Room room)
 		throws Exception {
@@ -251,8 +416,19 @@ public class Mutation {
 	}
 
 	@GraphQLField
-	@GraphQLInvokeDetached
-	public Booking postBooking(@GraphQLName("booking") Booking booking)
+	public Response updateRoomBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_roomResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			roomResource -> roomResource.putRoomBatch(callbackURL, object));
+	}
+
+	@GraphQLField(description = "Create a new booking.")
+	public Booking createBooking(@GraphQLName("booking") Booking booking)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
@@ -261,18 +437,48 @@ public class Mutation {
 			bookingResource -> bookingResource.postBooking(booking));
 	}
 
-	@GraphQLInvokeDetached
-	public void deleteBooking(@GraphQLName("bookingId") String bookingId)
+	@GraphQLField
+	public Response createBookingBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_bookingResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			bookingResource -> bookingResource.postBookingBatch(
+				callbackURL, object));
+	}
+
+	@GraphQLField(
+		description = "Deletes the booking and returns a 204 if the operation succeeds."
+	)
+	public boolean deleteBooking(@GraphQLName("bookingId") String bookingId)
 		throws Exception {
 
 		_applyVoidComponentServiceObjects(
 			_bookingResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			bookingResource -> bookingResource.deleteBooking(bookingId));
+
+		return true;
 	}
 
-	@GraphQLInvokeDetached
-	public Booking putBooking(
+	@GraphQLField
+	public Response deleteBookingBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_bookingResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			bookingResource -> bookingResource.deleteBookingBatch(
+				callbackURL, object));
+	}
+
+	@GraphQLField(description = "Updates and overwrites the booking.")
+	public Booking updateBooking(
 			@GraphQLName("bookingId") String bookingId,
 			@GraphQLName("booking") Booking booking)
 		throws Exception {
@@ -281,6 +487,19 @@ public class Mutation {
 			_bookingResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			bookingResource -> bookingResource.putBooking(bookingId, booking));
+	}
+
+	@GraphQLField
+	public Response updateBookingBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_bookingResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			bookingResource -> bookingResource.putBookingBatch(
+				callbackURL, object));
 	}
 
 	private <T, R, E1 extends Throwable, E2 extends Throwable> R
@@ -324,50 +543,80 @@ public class Mutation {
 	private void _populateResourceContext(AmenityResource amenityResource)
 		throws Exception {
 
-		amenityResource.setContextCompany(
-			CompanyLocalServiceUtil.getCompany(
-				CompanyThreadLocal.getCompanyId()));
+		amenityResource.setContextAcceptLanguage(_acceptLanguage);
+		amenityResource.setContextCompany(_company);
+		amenityResource.setContextHttpServletRequest(_httpServletRequest);
+		amenityResource.setContextHttpServletResponse(_httpServletResponse);
+		amenityResource.setContextUriInfo(_uriInfo);
+		amenityResource.setContextUser(_user);
+		amenityResource.setGroupLocalService(_groupLocalService);
+		amenityResource.setRoleLocalService(_roleLocalService);
 	}
 
 	private void _populateResourceContext(BookingResource bookingResource)
 		throws Exception {
 
-		bookingResource.setContextCompany(
-			CompanyLocalServiceUtil.getCompany(
-				CompanyThreadLocal.getCompanyId()));
+		bookingResource.setContextAcceptLanguage(_acceptLanguage);
+		bookingResource.setContextCompany(_company);
+		bookingResource.setContextHttpServletRequest(_httpServletRequest);
+		bookingResource.setContextHttpServletResponse(_httpServletResponse);
+		bookingResource.setContextUriInfo(_uriInfo);
+		bookingResource.setContextUser(_user);
+		bookingResource.setGroupLocalService(_groupLocalService);
+		bookingResource.setRoleLocalService(_roleLocalService);
 	}
 
 	private void _populateResourceContext(OfficeResource officeResource)
 		throws Exception {
 
-		officeResource.setContextCompany(
-			CompanyLocalServiceUtil.getCompany(
-				CompanyThreadLocal.getCompanyId()));
+		officeResource.setContextAcceptLanguage(_acceptLanguage);
+		officeResource.setContextCompany(_company);
+		officeResource.setContextHttpServletRequest(_httpServletRequest);
+		officeResource.setContextHttpServletResponse(_httpServletResponse);
+		officeResource.setContextUriInfo(_uriInfo);
+		officeResource.setContextUser(_user);
+		officeResource.setGroupLocalService(_groupLocalService);
+		officeResource.setRoleLocalService(_roleLocalService);
 	}
 
 	private void _populateResourceContext(
 			ParticipantResource participantResource)
 		throws Exception {
 
-		participantResource.setContextCompany(
-			CompanyLocalServiceUtil.getCompany(
-				CompanyThreadLocal.getCompanyId()));
+		participantResource.setContextAcceptLanguage(_acceptLanguage);
+		participantResource.setContextCompany(_company);
+		participantResource.setContextHttpServletRequest(_httpServletRequest);
+		participantResource.setContextHttpServletResponse(_httpServletResponse);
+		participantResource.setContextUriInfo(_uriInfo);
+		participantResource.setContextUser(_user);
+		participantResource.setGroupLocalService(_groupLocalService);
+		participantResource.setRoleLocalService(_roleLocalService);
 	}
 
 	private void _populateResourceContext(PurposeResource purposeResource)
 		throws Exception {
 
-		purposeResource.setContextCompany(
-			CompanyLocalServiceUtil.getCompany(
-				CompanyThreadLocal.getCompanyId()));
+		purposeResource.setContextAcceptLanguage(_acceptLanguage);
+		purposeResource.setContextCompany(_company);
+		purposeResource.setContextHttpServletRequest(_httpServletRequest);
+		purposeResource.setContextHttpServletResponse(_httpServletResponse);
+		purposeResource.setContextUriInfo(_uriInfo);
+		purposeResource.setContextUser(_user);
+		purposeResource.setGroupLocalService(_groupLocalService);
+		purposeResource.setRoleLocalService(_roleLocalService);
 	}
 
 	private void _populateResourceContext(RoomResource roomResource)
 		throws Exception {
 
-		roomResource.setContextCompany(
-			CompanyLocalServiceUtil.getCompany(
-				CompanyThreadLocal.getCompanyId()));
+		roomResource.setContextAcceptLanguage(_acceptLanguage);
+		roomResource.setContextCompany(_company);
+		roomResource.setContextHttpServletRequest(_httpServletRequest);
+		roomResource.setContextHttpServletResponse(_httpServletResponse);
+		roomResource.setContextUriInfo(_uriInfo);
+		roomResource.setContextUser(_user);
+		roomResource.setGroupLocalService(_groupLocalService);
+		roomResource.setRoleLocalService(_roleLocalService);
 	}
 
 	private static ComponentServiceObjects<AmenityResource>
@@ -382,5 +631,15 @@ public class Mutation {
 		_purposeResourceComponentServiceObjects;
 	private static ComponentServiceObjects<RoomResource>
 		_roomResourceComponentServiceObjects;
+
+	private AcceptLanguage _acceptLanguage;
+	private com.liferay.portal.kernel.model.Company _company;
+	private GroupLocalService _groupLocalService;
+	private HttpServletRequest _httpServletRequest;
+	private HttpServletResponse _httpServletResponse;
+	private RoleLocalService _roleLocalService;
+	private BiFunction<Object, String, Sort[]> _sortsBiFunction;
+	private UriInfo _uriInfo;
+	private com.liferay.portal.kernel.model.User _user;
 
 }

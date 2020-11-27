@@ -1,36 +1,49 @@
 package jp.co.liferay.headless.reservation.resource.v1_0.test;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
+import com.liferay.petra.function.UnsafeTriConsumer;
+import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.odata.entity.EntityField;
 import com.liferay.portal.odata.entity.EntityModel;
+import com.liferay.portal.search.test.util.SearchTestRule;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -81,7 +94,19 @@ public abstract class BaseParticipantResourceTestCase {
 	public void setUp() throws Exception {
 		irrelevantGroup = GroupTestUtil.addGroup();
 		testGroup = GroupTestUtil.addGroup();
-		testLocale = LocaleUtil.getDefault();
+
+		testCompany = CompanyLocalServiceUtil.getCompany(
+			testGroup.getCompanyId());
+
+		_participantResource.setContextCompany(testCompany);
+
+		ParticipantResource.Builder builder = ParticipantResource.builder();
+
+		participantResource = builder.authentication(
+			"test@liferay.com", "test"
+		).locale(
+			LocaleUtil.getDefault()
+		).build();
 	}
 
 	@After
@@ -95,10 +120,16 @@ public abstract class BaseParticipantResourceTestCase {
 		ObjectMapper objectMapper = new ObjectMapper() {
 			{
 				configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
+				configure(
+					SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
 				enable(SerializationFeature.INDENT_OUTPUT);
 				setDateFormat(new ISO8601DateFormat());
 				setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 				setSerializationInclusion(JsonInclude.Include.NON_NULL);
+				setVisibility(
+					PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+				setVisibility(
+					PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE);
 			}
 		};
 
@@ -116,9 +147,15 @@ public abstract class BaseParticipantResourceTestCase {
 		ObjectMapper objectMapper = new ObjectMapper() {
 			{
 				configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
+				configure(
+					SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
 				setDateFormat(new ISO8601DateFormat());
 				setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 				setSerializationInclusion(JsonInclude.Include.NON_NULL);
+				setVisibility(
+					PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+				setVisibility(
+					PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE);
 			}
 		};
 
@@ -132,14 +169,40 @@ public abstract class BaseParticipantResourceTestCase {
 	}
 
 	@Test
+	public void testEscapeRegexInStringFields() throws Exception {
+		String regex = "^[0-9]+(\\.[0-9]{1,2})\"?";
+
+		Participant participant = randomParticipant();
+
+		participant.setCompanyName(regex);
+		participant.setEmailAddress(regex);
+		participant.setFullName(regex);
+
+		String json = ParticipantSerDes.toJSON(participant);
+
+		Assert.assertFalse(json.contains(regex));
+
+		participant = ParticipantSerDes.toDTO(json);
+
+		Assert.assertEquals(regex, participant.getCompanyName());
+		Assert.assertEquals(regex, participant.getEmailAddress());
+		Assert.assertEquals(regex, participant.getFullName());
+	}
+
+	@Test
 	public void testGetParticipantsPage() throws Exception {
+		Page<Participant> page = participantResource.getParticipantsPage(
+			RandomTestUtil.randomString(), null, Pagination.of(1, 2), null);
+
+		Assert.assertEquals(0, page.getTotalCount());
+
 		Participant participant1 = testGetParticipantsPage_addParticipant(
 			randomParticipant());
 
 		Participant participant2 = testGetParticipantsPage_addParticipant(
 			randomParticipant());
 
-		Page<Participant> page = ParticipantResource.getParticipantsPage(
+		page = participantResource.getParticipantsPage(
 			null, null, Pagination.of(1, 2), null);
 
 		Assert.assertEquals(2, page.getTotalCount());
@@ -166,7 +229,7 @@ public abstract class BaseParticipantResourceTestCase {
 		participant1 = testGetParticipantsPage_addParticipant(participant1);
 
 		for (EntityField entityField : entityFields) {
-			Page<Participant> page = ParticipantResource.getParticipantsPage(
+			Page<Participant> page = participantResource.getParticipantsPage(
 				null, getFilterString(entityField, "between", participant1),
 				Pagination.of(1, 2), null);
 
@@ -195,7 +258,7 @@ public abstract class BaseParticipantResourceTestCase {
 			randomParticipant());
 
 		for (EntityField entityField : entityFields) {
-			Page<Participant> page = ParticipantResource.getParticipantsPage(
+			Page<Participant> page = participantResource.getParticipantsPage(
 				null, getFilterString(entityField, "eq", participant1),
 				Pagination.of(1, 2), null);
 
@@ -216,14 +279,14 @@ public abstract class BaseParticipantResourceTestCase {
 		Participant participant3 = testGetParticipantsPage_addParticipant(
 			randomParticipant());
 
-		Page<Participant> page1 = ParticipantResource.getParticipantsPage(
+		Page<Participant> page1 = participantResource.getParticipantsPage(
 			null, null, Pagination.of(1, 2), null);
 
 		List<Participant> participants1 = (List<Participant>)page1.getItems();
 
 		Assert.assertEquals(participants1.toString(), 2, participants1.size());
 
-		Page<Participant> page2 = ParticipantResource.getParticipantsPage(
+		Page<Participant> page2 = participantResource.getParticipantsPage(
 			null, null, Pagination.of(2, 2), null);
 
 		Assert.assertEquals(3, page2.getTotalCount());
@@ -232,62 +295,93 @@ public abstract class BaseParticipantResourceTestCase {
 
 		Assert.assertEquals(participants2.toString(), 1, participants2.size());
 
+		Page<Participant> page3 = participantResource.getParticipantsPage(
+			null, null, Pagination.of(1, 3), null);
+
 		assertEqualsIgnoringOrder(
 			Arrays.asList(participant1, participant2, participant3),
-			new ArrayList<Participant>() {
-				{
-					addAll(participants1);
-					addAll(participants2);
-				}
-			});
+			(List<Participant>)page3.getItems());
 	}
 
 	@Test
 	public void testGetParticipantsPageWithSortDateTime() throws Exception {
-		List<EntityField> entityFields = getEntityFields(
-			EntityField.Type.DATE_TIME);
+		testGetParticipantsPageWithSort(
+			EntityField.Type.DATE_TIME,
+			(entityField, participant1, participant2) -> {
+				BeanUtils.setProperty(
+					participant1, entityField.getName(),
+					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
 
-		if (entityFields.isEmpty()) {
-			return;
-		}
-
-		Participant participant1 = randomParticipant();
-		Participant participant2 = randomParticipant();
-
-		for (EntityField entityField : entityFields) {
-			BeanUtils.setProperty(
-				participant1, entityField.getName(),
-				DateUtils.addMinutes(new Date(), -2));
-		}
-
-		participant1 = testGetParticipantsPage_addParticipant(participant1);
-
-		participant2 = testGetParticipantsPage_addParticipant(participant2);
-
-		for (EntityField entityField : entityFields) {
-			Page<Participant> ascPage = ParticipantResource.getParticipantsPage(
-				null, null, Pagination.of(1, 2),
-				entityField.getName() + ":asc");
-
-			assertEquals(
-				Arrays.asList(participant1, participant2),
-				(List<Participant>)ascPage.getItems());
-
-			Page<Participant> descPage =
-				ParticipantResource.getParticipantsPage(
-					null, null, Pagination.of(1, 2),
-					entityField.getName() + ":desc");
-
-			assertEquals(
-				Arrays.asList(participant2, participant1),
-				(List<Participant>)descPage.getItems());
-		}
+	@Test
+	public void testGetParticipantsPageWithSortInteger() throws Exception {
+		testGetParticipantsPageWithSort(
+			EntityField.Type.INTEGER,
+			(entityField, participant1, participant2) -> {
+				BeanUtils.setProperty(participant1, entityField.getName(), 0);
+				BeanUtils.setProperty(participant2, entityField.getName(), 1);
+			});
 	}
 
 	@Test
 	public void testGetParticipantsPageWithSortString() throws Exception {
-		List<EntityField> entityFields = getEntityFields(
-			EntityField.Type.STRING);
+		testGetParticipantsPageWithSort(
+			EntityField.Type.STRING,
+			(entityField, participant1, participant2) -> {
+				Class<?> clazz = participant1.getClass();
+
+				String entityFieldName = entityField.getName();
+
+				Method method = clazz.getMethod(
+					"get" + StringUtil.upperCaseFirstLetter(entityFieldName));
+
+				Class<?> returnType = method.getReturnType();
+
+				if (returnType.isAssignableFrom(Map.class)) {
+					BeanUtils.setProperty(
+						participant1, entityFieldName,
+						Collections.singletonMap("Aaa", "Aaa"));
+					BeanUtils.setProperty(
+						participant2, entityFieldName,
+						Collections.singletonMap("Bbb", "Bbb"));
+				}
+				else if (entityFieldName.contains("email")) {
+					BeanUtils.setProperty(
+						participant1, entityFieldName,
+						"aaa" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()) +
+									"@liferay.com");
+					BeanUtils.setProperty(
+						participant2, entityFieldName,
+						"bbb" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()) +
+									"@liferay.com");
+				}
+				else {
+					BeanUtils.setProperty(
+						participant1, entityFieldName,
+						"aaa" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()));
+					BeanUtils.setProperty(
+						participant2, entityFieldName,
+						"bbb" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()));
+				}
+			});
+	}
+
+	protected void testGetParticipantsPageWithSort(
+			EntityField.Type type,
+			UnsafeTriConsumer<EntityField, Participant, Participant, Exception>
+				unsafeTriConsumer)
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(type);
 
 		if (entityFields.isEmpty()) {
 			return;
@@ -297,8 +391,7 @@ public abstract class BaseParticipantResourceTestCase {
 		Participant participant2 = randomParticipant();
 
 		for (EntityField entityField : entityFields) {
-			BeanUtils.setProperty(participant1, entityField.getName(), "Aaa");
-			BeanUtils.setProperty(participant2, entityField.getName(), "Bbb");
+			unsafeTriConsumer.accept(entityField, participant1, participant2);
 		}
 
 		participant1 = testGetParticipantsPage_addParticipant(participant1);
@@ -306,7 +399,7 @@ public abstract class BaseParticipantResourceTestCase {
 		participant2 = testGetParticipantsPage_addParticipant(participant2);
 
 		for (EntityField entityField : entityFields) {
-			Page<Participant> ascPage = ParticipantResource.getParticipantsPage(
+			Page<Participant> ascPage = participantResource.getParticipantsPage(
 				null, null, Pagination.of(1, 2),
 				entityField.getName() + ":asc");
 
@@ -315,7 +408,7 @@ public abstract class BaseParticipantResourceTestCase {
 				(List<Participant>)ascPage.getItems());
 
 			Page<Participant> descPage =
-				ParticipantResource.getParticipantsPage(
+				participantResource.getParticipantsPage(
 					null, null, Pagination.of(1, 2),
 					entityField.getName() + ":desc");
 
@@ -331,6 +424,11 @@ public abstract class BaseParticipantResourceTestCase {
 
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGraphQLGetParticipantsPage() throws Exception {
+		Assert.assertTrue(false);
 	}
 
 	@Test
@@ -354,18 +452,36 @@ public abstract class BaseParticipantResourceTestCase {
 
 	@Test
 	public void testDeleteParticipant() throws Exception {
-		Assert.assertTrue(true);
+		Assert.assertTrue(false);
+	}
+
+	@Test
+	public void testGraphQLDeleteParticipant() throws Exception {
+		Assert.assertTrue(false);
 	}
 
 	@Test
 	public void testGetParticipant() throws Exception {
+		Assert.assertTrue(false);
+	}
+
+	@Test
+	public void testGraphQLGetParticipant() throws Exception {
+		Assert.assertTrue(true);
+	}
+
+	@Test
+	public void testGraphQLGetParticipantNotFound() throws Exception {
 		Assert.assertTrue(true);
 	}
 
 	@Test
 	public void testPutParticipant() throws Exception {
-		Assert.assertTrue(true);
+		Assert.assertTrue(false);
 	}
+
+	@Rule
+	public SearchTestRule searchTestRule = new SearchTestRule();
 
 	protected void assertHttpResponseStatusCode(
 		int expectedHttpResponseStatusCode,
@@ -417,7 +533,7 @@ public abstract class BaseParticipantResourceTestCase {
 		}
 	}
 
-	protected void assertValid(Participant participant) {
+	protected void assertValid(Participant participant) throws Exception {
 		boolean valid = true;
 
 		for (String additionalAssertFieldName :
@@ -474,7 +590,7 @@ public abstract class BaseParticipantResourceTestCase {
 	protected void assertValid(Page<Participant> page) {
 		boolean valid = false;
 
-		Collection<Participant> participants = page.getItems();
+		java.util.Collection<Participant> participants = page.getItems();
 
 		int size = participants.size();
 
@@ -489,6 +605,59 @@ public abstract class BaseParticipantResourceTestCase {
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {
+		return new String[0];
+	}
+
+	protected List<GraphQLField> getGraphQLFields() throws Exception {
+		List<GraphQLField> graphQLFields = new ArrayList<>();
+
+		for (Field field :
+				ReflectionUtil.getDeclaredFields(
+					jp.co.liferay.headless.reservation.dto.v1_0.Participant.
+						class)) {
+
+			if (!ArrayUtil.contains(
+					getAdditionalAssertFieldNames(), field.getName())) {
+
+				continue;
+			}
+
+			graphQLFields.addAll(getGraphQLFields(field));
+		}
+
+		return graphQLFields;
+	}
+
+	protected List<GraphQLField> getGraphQLFields(Field... fields)
+		throws Exception {
+
+		List<GraphQLField> graphQLFields = new ArrayList<>();
+
+		for (Field field : fields) {
+			com.liferay.portal.vulcan.graphql.annotation.GraphQLField
+				vulcanGraphQLField = field.getAnnotation(
+					com.liferay.portal.vulcan.graphql.annotation.GraphQLField.
+						class);
+
+			if (vulcanGraphQLField != null) {
+				Class<?> clazz = field.getType();
+
+				if (clazz.isArray()) {
+					clazz = clazz.getComponentType();
+				}
+
+				List<GraphQLField> childrenGraphQLFields = getGraphQLFields(
+					ReflectionUtil.getDeclaredFields(clazz));
+
+				graphQLFields.add(
+					new GraphQLField(field.getName(), childrenGraphQLFields));
+			}
+		}
+
+		return graphQLFields;
+	}
+
+	protected String[] getIgnoredEntityFieldNames() {
 		return new String[0];
 	}
 
@@ -564,7 +733,35 @@ public abstract class BaseParticipantResourceTestCase {
 		return true;
 	}
 
-	protected Collection<EntityField> getEntityFields() throws Exception {
+	protected boolean equals(
+		Map<String, Object> map1, Map<String, Object> map2) {
+
+		if (Objects.equals(map1.keySet(), map2.keySet())) {
+			for (Map.Entry<String, Object> entry : map1.entrySet()) {
+				if (entry.getValue() instanceof Map) {
+					if (!equals(
+							(Map)entry.getValue(),
+							(Map)map2.get(entry.getKey()))) {
+
+						return false;
+					}
+				}
+				else if (!Objects.deepEquals(
+							entry.getValue(), map2.get(entry.getKey()))) {
+
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	protected java.util.Collection<EntityField> getEntityFields()
+		throws Exception {
+
 		if (!(_participantResource instanceof EntityModelResource)) {
 			throw new UnsupportedOperationException(
 				"Resource is not an instance of EntityModelResource");
@@ -585,12 +782,15 @@ public abstract class BaseParticipantResourceTestCase {
 	protected List<EntityField> getEntityFields(EntityField.Type type)
 		throws Exception {
 
-		Collection<EntityField> entityFields = getEntityFields();
+		java.util.Collection<EntityField> entityFields = getEntityFields();
 
 		Stream<EntityField> stream = entityFields.stream();
 
 		return stream.filter(
-			entityField -> Objects.equals(entityField.getType(), type)
+			entityField ->
+				Objects.equals(entityField.getType(), type) &&
+				!ArrayUtil.contains(
+					getIgnoredEntityFieldNames(), entityField.getName())
 		).collect(
 			Collectors.toList()
 		);
@@ -647,12 +847,53 @@ public abstract class BaseParticipantResourceTestCase {
 			"Invalid entity field " + entityFieldName);
 	}
 
+	protected String invoke(String query) throws Exception {
+		HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+		httpInvoker.body(
+			JSONUtil.put(
+				"query", query
+			).toString(),
+			"application/json");
+		httpInvoker.httpMethod(HttpInvoker.HttpMethod.POST);
+		httpInvoker.path("http://localhost:8080/o/graphql");
+		httpInvoker.userNameAndPassword("test@liferay.com:test");
+
+		HttpInvoker.HttpResponse httpResponse = httpInvoker.invoke();
+
+		return httpResponse.getContent();
+	}
+
+	protected JSONObject invokeGraphQLMutation(GraphQLField graphQLField)
+		throws Exception {
+
+		GraphQLField mutationGraphQLField = new GraphQLField(
+			"mutation", graphQLField);
+
+		return JSONFactoryUtil.createJSONObject(
+			invoke(mutationGraphQLField.toString()));
+	}
+
+	protected JSONObject invokeGraphQLQuery(GraphQLField graphQLField)
+		throws Exception {
+
+		GraphQLField queryGraphQLField = new GraphQLField(
+			"query", graphQLField);
+
+		return JSONFactoryUtil.createJSONObject(
+			invoke(queryGraphQLField.toString()));
+	}
+
 	protected Participant randomParticipant() throws Exception {
 		return new Participant() {
 			{
-				companyName = RandomTestUtil.randomString();
-				emailAddress = RandomTestUtil.randomString();
-				fullName = RandomTestUtil.randomString();
+				companyName = StringUtil.toLowerCase(
+					RandomTestUtil.randomString());
+				emailAddress =
+					StringUtil.toLowerCase(RandomTestUtil.randomString()) +
+						"@liferay.com";
+				fullName = StringUtil.toLowerCase(
+					RandomTestUtil.randomString());
 				participantId = RandomTestUtil.randomLong();
 				userId = RandomTestUtil.randomLong();
 			}
@@ -669,10 +910,81 @@ public abstract class BaseParticipantResourceTestCase {
 		return randomParticipant();
 	}
 
+	protected ParticipantResource participantResource;
 	protected Group irrelevantGroup;
+	protected Company testCompany;
 	protected Group testGroup;
-	protected Locale testLocale;
-	protected String testUserNameAndPassword = "test@liferay.com:test";
+
+	protected class GraphQLField {
+
+		public GraphQLField(String key, GraphQLField... graphQLFields) {
+			this(key, new HashMap<>(), graphQLFields);
+		}
+
+		public GraphQLField(String key, List<GraphQLField> graphQLFields) {
+			this(key, new HashMap<>(), graphQLFields);
+		}
+
+		public GraphQLField(
+			String key, Map<String, Object> parameterMap,
+			GraphQLField... graphQLFields) {
+
+			_key = key;
+			_parameterMap = parameterMap;
+			_graphQLFields = Arrays.asList(graphQLFields);
+		}
+
+		public GraphQLField(
+			String key, Map<String, Object> parameterMap,
+			List<GraphQLField> graphQLFields) {
+
+			_key = key;
+			_parameterMap = parameterMap;
+			_graphQLFields = graphQLFields;
+		}
+
+		@Override
+		public String toString() {
+			StringBuilder sb = new StringBuilder(_key);
+
+			if (!_parameterMap.isEmpty()) {
+				sb.append("(");
+
+				for (Map.Entry<String, Object> entry :
+						_parameterMap.entrySet()) {
+
+					sb.append(entry.getKey());
+					sb.append(":");
+					sb.append(entry.getValue());
+					sb.append(",");
+				}
+
+				sb.setLength(sb.length() - 1);
+
+				sb.append(")");
+			}
+
+			if (!_graphQLFields.isEmpty()) {
+				sb.append("{");
+
+				for (GraphQLField graphQLField : _graphQLFields) {
+					sb.append(graphQLField.toString());
+					sb.append(",");
+				}
+
+				sb.setLength(sb.length() - 1);
+
+				sb.append("}");
+			}
+
+			return sb.toString();
+		}
+
+		private final List<GraphQLField> _graphQLFields;
+		private final String _key;
+		private final Map<String, Object> _parameterMap;
+
+	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		BaseParticipantResourceTestCase.class);

@@ -20,8 +20,6 @@ import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * <p>
  * This class is a wrapper for {@link PersistedParticipant}.
@@ -31,10 +29,9 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see PersistedParticipant
  * @generated
  */
-@ProviderType
 public class PersistedParticipantWrapper
 	extends BaseModelWrapper<PersistedParticipant>
-	implements PersistedParticipant, ModelWrapper<PersistedParticipant> {
+	implements ModelWrapper<PersistedParticipant>, PersistedParticipant {
 
 	public PersistedParticipantWrapper(
 		PersistedParticipant persistedParticipant) {

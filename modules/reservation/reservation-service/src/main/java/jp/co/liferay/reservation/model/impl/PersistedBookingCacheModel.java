@@ -27,30 +27,27 @@ import java.util.Date;
 
 import jp.co.liferay.reservation.model.PersistedBooking;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The cache model class for representing PersistedBooking in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class PersistedBookingCacheModel
 	implements CacheModel<PersistedBooking>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PersistedBookingCacheModel)) {
+		if (!(object instanceof PersistedBookingCacheModel)) {
 			return false;
 		}
 
 		PersistedBookingCacheModel persistedBookingCacheModel =
-			(PersistedBookingCacheModel)obj;
+			(PersistedBookingCacheModel)object;
 
 		if (bookingId == persistedBookingCacheModel.bookingId) {
 			return true;
